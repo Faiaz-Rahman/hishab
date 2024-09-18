@@ -7,7 +7,7 @@ import {
   TextStyle,
 } from 'react-native';
 
-import React from 'react';
+import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 
 import {Colors} from '@constants';
@@ -21,6 +21,10 @@ interface AppTextInputProps {
   onChangeText: (text: string) => void;
   children?: React.ReactNode;
   useGradient?: boolean;
+  preIcon?: React.ReactNode;
+  showRightIcon?: boolean;
+  toggleShowPassword?: () => void;
+  showPassword?: boolean;
 }
 
 export default function TextInput({
@@ -32,38 +36,56 @@ export default function TextInput({
   onChangeText,
   children,
   useGradient = true,
+  preIcon,
+  showRightIcon = true,
+  toggleShowPassword,
+  showPassword,
 }: AppTextInputProps) {
   return (
     <View style={[styles.inputWrapper, style]}>
-      <RNTextInput
-        onChangeText={onChangeText}
-        style={styles.input}
-        placeholder={placeholder}
-        placeholderTextColor={placeholderTextColor}
-        onBlur={onBlur}
-        onFocus={onFocus}
-      />
-      <TouchableOpacity style={[styles.gradient]} onPress={onBlur}>
-        {useGradient ? (
-          <LinearGradient
-            colors={Colors.gradient}
-            start={{x: 0, y: 1}}
-            end={{x: 1, y: 0}}
-            locations={[0, 0.25, 0.6]}
-            style={styles.textInputIconWrapperGradient}>
-            {children}
-          </LinearGradient>
-        ) : (
-          children
-        )}
-      </TouchableOpacity>
+      <View
+        style={[
+          styles.inputInnerWrapper,
+          {width: showRightIcon ? '85%' : '100%'},
+        ]}>
+        {preIcon && <View style={styles.preIconWrapper}>{preIcon}</View>}
+        <RNTextInput
+          secureTextEntry={showPassword ? false : true}
+          onChangeText={onChangeText}
+          style={[styles.input, {width: preIcon ? '85%' : '100%'}]}
+          placeholder={placeholder}
+          placeholderTextColor={placeholderTextColor}
+          onBlur={onBlur}
+          onFocus={onFocus}
+          cursorColor={Colors.socialPink}
+        />
+      </View>
+
+      {showRightIcon && (
+        <TouchableOpacity
+          style={[styles.gradient]}
+          onPress={toggleShowPassword}>
+          {useGradient ? (
+            <LinearGradient
+              colors={Colors.gradient}
+              start={{x: 0, y: 1}}
+              end={{x: 1, y: 0}}
+              locations={[0, 0.25, 0.6]}
+              style={styles.textInputIconWrapperGradient}>
+              {children}
+            </LinearGradient>
+          ) : (
+            children
+          )}
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   inputWrapper: {
-    width: '90%',
+    width: '100%',
     backgroundColor: Colors.darkGray,
     height: 40,
     borderRadius: 40,
@@ -73,6 +95,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  inputInnerWrapper: {
+    width: '85%',
+    height: '100%',
+    flexDirection: 'row',
+    // backgroundColor: 'violet',
+  },
+  preIconWrapper: {
+    width: '15%',
+    height: '100%',
+    // backgroundColor: 'yellow',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    paddingRight: 5,
+  },
   input: {
     height: 40,
     width: '85%',
@@ -80,7 +116,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: Colors.socialWhite,
     fontFamily: 'Roboto-Medium',
-    // backgroundColor: 'red',
+    // backgroundColor: 'green',
   },
   gradient: {
     height: 40,
