@@ -10,12 +10,21 @@ import Button from '@components/common/Button';
 import AppText from '@components/common/Text';
 
 import {useNavigation} from '@react-navigation/native';
+import LogoItem from '@components/common/logoItem';
+
+import {useSelector} from 'react-redux';
+import {RootState} from '@store/index';
 
 export default function Login() {
   const [showPass, setShowPass] = useState<boolean>(false);
   const navigation = useNavigation();
+
+  // const {isAuthenticated} = useSelector(state => (state as RootState).auth);
+  // console.log(isAuthenticated);
+
   return (
     <View style={styles.login}>
+      <LogoItem style={{marginBottom: 30}} />
       <TextInput
         onBlur={() => {}}
         placeholder="Enter your email"
