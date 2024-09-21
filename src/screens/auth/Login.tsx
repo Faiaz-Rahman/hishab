@@ -13,14 +13,19 @@ import {useNavigation} from '@react-navigation/native';
 import LogoItem from '@components/common/logoItem';
 
 import {useSelector} from 'react-redux';
-import {RootState} from '@store/index';
+import {RootState, useAppDispatch} from '@store/index';
+import {updateIsAuthenticated} from '@store/slices/authSlice';
 
 export default function Login() {
   const [showPass, setShowPass] = useState<boolean>(false);
   const navigation = useNavigation();
 
-  // const {isAuthenticated} = useSelector(state => (state as RootState).auth);
-  // console.log(isAuthenticated);
+  const {isAuthenticated} = useSelector(state => (state as RootState).auth);
+  const dispatch = useAppDispatch();
+
+  // React.useEffect(() => {
+  //   console.log(isAuthenticated);
+  // }, [isAuthenticated]);
 
   return (
     <View style={styles.login}>
@@ -71,6 +76,7 @@ export default function Login() {
         titleStyle={{}}
         onPress={() => {
           console.log('login');
+          dispatch(updateIsAuthenticated(true));
         }}
       />
 

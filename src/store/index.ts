@@ -12,31 +12,24 @@ export const rootReducer = combineReducers({
   auth: authReducer,
 });
 
-// import {
-//   FLUSH,
-//   PAUSE,
-//   PURGE,
-//   PERSIST,
-//   REGISTER,
-//   REHYDRATE,
-//   persistStore,
-//   persistReducer,
-// } from 'redux-persist';
-
 // import authSlice from '../slices/authSlice';
 
-// const persistConfig = {
-//   key: 'root',
-//   storage: AsyncStorage,
-// };
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+};
 
-// const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-// export const store = createStore(persistedReducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
+
+export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof rootReducer>;
 

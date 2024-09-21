@@ -10,9 +10,13 @@ const initialState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    updateIsAuthenticated: (state, actions) => {
+      state.isAuthenticated = actions.payload;
+    },
+  },
 });
 
-// export const {setUserAsGuest, setUserData, setCategoryListData, clearUserData} =
-//   authSlice.actions;
+export const {updateIsAuthenticated} = authSlice.actions;
+
 export default authSlice.reducer;
