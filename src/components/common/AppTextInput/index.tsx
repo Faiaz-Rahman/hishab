@@ -37,7 +37,7 @@ export default function TextInput({
   children,
   useGradient = true,
   preIcon,
-  showRightIcon = true,
+  showRightIcon = false,
   toggleShowPassword,
   showPassword,
 }: AppTextInputProps) {
