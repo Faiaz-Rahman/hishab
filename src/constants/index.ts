@@ -16,4 +16,5 @@ export const Colors = {
   darkGray: '#323436',
   lighterGray: '#727477',
   gradient: ['#F62E8E', '#F62E8E', '#AC1AF0'],
+  socialBlack: '#1c1a1b',
 };

@@ -48,6 +48,7 @@ export default function Login() {
         onBlur={() => {}}
         placeholder="Enter password"
         placeholderTextColor={Colors.lighterGray}
+        showRightIcon={true}
         onFocus={() => {}}
         onChangeText={() => {}}
         toggleShowPassword={() => {
