@@ -9,6 +9,8 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 import AppText from '@components/common/Text';
+import RedirectButton from '@components/common/RedirectButton';
+import Animated from 'react-native-reanimated';
 
 export default function UpdateMeal() {
   const [selected, setSelected] = useState<string>('');
@@ -16,10 +18,7 @@ export default function UpdateMeal() {
   const [selectedSecond, setSelectedSecond] = useState<string>('');
 
   const [objOfDates, setObjOfDates] = useState({});
-
-  // React.useEffect(() => {
-  //   console.log(objOfDates, selected, selectedSecond);
-  // }, [objOfDates, selected, selectedSecond]);
+  const [toggleButton, setToggleButton] = useState(0);
 
   const generateDateObj = (
     year: string,
@@ -30,11 +29,26 @@ export default function UpdateMeal() {
     const dateObj: any = {};
 
     for (let i = sDay; i <= eDay; ++i) {
-      dateObj[`${year}-${month}-${i}`] = {
-        selected: true,
-        selectedColor: Colors.socialBlue,
-        marked: true,
-      };
+      if (i === sDay) {
+        dateObj[`${year}-${month}-${i}`] = {
+          startingDay: true,
+          selected: true,
+          selectedColor: Colors.socialBlue,
+          marked: true,
+        };
+      } else if (i === eDay) {
+        dateObj[`${year}-${month}-${i}`] = {
+          endingDay: true,
+          selected: true,
+          selectedColor: Colors.socialBlue,
+          marked: true,
+        };
+      } else {
+        dateObj[`${year}-${month}-${i}`] = {
+          selected: true,
+          selectedColor: Colors.socialPink,
+        };
+      }
     }
     return dateObj;
   };
@@ -51,7 +65,7 @@ export default function UpdateMeal() {
           obj[`${day.dateString}`] = {
             selected: true,
             selectedColor: Colors.socialBlue,
-            selectedDotColor: 'red',
+            marked: true,
           };
           setObjOfDates(obj);
         } else {
@@ -135,7 +149,8 @@ export default function UpdateMeal() {
         style={{
           height: 50,
           //   backgroundColor: 'red',
-          width: Dim.width * 0.9,
+          width: Dim.width,
+          paddingLeft: Dim.width * 0.075 - 15,
           alignSelf: 'center',
           marginBottom: 10,
         }}>
@@ -143,12 +158,7 @@ export default function UpdateMeal() {
           onPress={() => {
             navigation.goBack();
           }}
-          style={{
-            height: 50,
-            width: 50,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+          style={styles.backbutton}>
           <Entypo name="chevron-thin-left" size={20} color={'#fff'} />
         </Pressable>
       </View>
@@ -165,42 +175,60 @@ export default function UpdateMeal() {
         }}
         hideExtraDays={true}
         hideArrows={true}
-        markingType="custom"
+        markingType="dot"
         onDayPress={handleDayPress}
         markedDates={objOfDates}
+        enableSwipeMonths={true}
       />
 
       {selected && (
-        <View
-          style={{
-            height: 70,
-            width: Dim.width * 0.9,
-            alignSelf: 'center',
-            backgroundColor: Colors.socialBlack,
-            borderRadius: 15,
-            paddingLeft: 15,
-            justifyContent: 'center',
-            marginTop: 25,
-          }}>
+        <View style={styles.formattedDateWrapper}>
           <AppText
             styles={{
               color: Colors.socialWhite,
-              fontSize: 14,
-              fontFamily: 'Roboto-Regular',
+              fontSize: 13,
+              fontFamily: 'Roboto-Medium',
             }}>
             {formatDate()}
           </AppText>
         </View>
       )}
+
+      <RedirectButton
+        onPress={() => {
+          setToggleButton(prev => (prev == 0 ? 1 : 0));
+        }}
+        animated={true}
+        title="Modify Meals for Specific Dates"
+        animatedValue={toggleButton}
+        extraStyle={{marginTop: 25}}
+      />
     </MainLayout>
   );
 }
 
 const styles = StyleSheet.create({
   calendar: {
-    width: Dim.width * 0.9,
+    flex: 1,
+    width: Dim.width * 0.85,
     alignSelf: 'center',
     height: Dim.height * 0.55,
     borderRadius: 5,
+  },
+  formattedDateWrapper: {
+    height: 70,
+    width: Dim.width * 0.85,
+    alignSelf: 'center',
+    backgroundColor: Colors.socialBlack,
+    borderRadius: 15,
+    paddingLeft: 15,
+    justifyContent: 'center',
+    marginTop: 25,
+  },
+  backbutton: {
+    height: 50,
+    width: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
