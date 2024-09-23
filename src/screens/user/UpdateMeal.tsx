@@ -11,6 +11,13 @@ import moment from 'moment';
 import AppText from '@components/common/Text';
 import RedirectButton from '@components/common/RedirectButton';
 import Animated from 'react-native-reanimated';
+import CheckBox from '@react-native-community/checkbox';
+
+type DateWithMealType = {
+  date: string;
+  lunch: boolean;
+  dinner: boolean;
+};
 
 export default function UpdateMeal() {
   const [selected, setSelected] = useState<string>('');
@@ -18,7 +25,10 @@ export default function UpdateMeal() {
   const [selectedSecond, setSelectedSecond] = useState<string>('');
 
   const [objOfDates, setObjOfDates] = useState({});
-  const [toggleButton, setToggleButton] = useState(0);
+  const [toggleShowAllDates, setToggleShowAllDates] = useState(false);
+  const [arrayOfDates, setArrayOfDates] = useState<Array<DateWithMealType>>([]);
+  const [dinner, setDinner] = useState<boolean>(true);
+  const [lunch, setLunch] = useState<boolean>(true);
 
   const generateDateObj = (
     year: string,
@@ -53,6 +63,24 @@ export default function UpdateMeal() {
     return dateObj;
   };
 
+  const generateArrayForDates = (
+    year: string,
+    month: string,
+    sDay: number,
+    eDay: number,
+  ): Array<any> => {
+    const dateArray: DateWithMealType[] = [];
+    for (let i = sDay; i <= eDay; ++i) {
+      dateArray.push({
+        date: `${year}-${month}-${i}`,
+        lunch: true,
+        dinner: true,
+      });
+    }
+
+    return dateArray;
+  };
+
   const handleDayPress = useCallback(
     (day: DateData) => {
       let obj: any = {};
@@ -68,6 +96,8 @@ export default function UpdateMeal() {
             marked: true,
           };
           setObjOfDates(obj);
+          const dateArray = [{date: day.dateString, lunch: true, dinner: true}];
+          setArrayOfDates(dateArray);
         } else {
           // console.log(3);
 
@@ -104,7 +134,9 @@ export default function UpdateMeal() {
             const eDay = parseInt(moment(first).format('DD'));
 
             const returnObj = generateDateObj(year, month, sDay, eDay);
+            const returnArray = generateArrayForDates(year, month, sDay, eDay);
 
+            setArrayOfDates(returnArray);
             setObjOfDates(returnObj);
           }
         } else {
@@ -117,7 +149,9 @@ export default function UpdateMeal() {
           const eDay = parseInt(moment(day.dateString).format('DD'));
 
           const returnObj = generateDateObj(year, month, sDay, eDay);
+          const returnArray = generateArrayForDates(year, month, sDay, eDay);
 
+          setArrayOfDates(returnArray);
           setObjOfDates(returnObj);
         }
       }
@@ -142,6 +176,16 @@ export default function UpdateMeal() {
       return '';
     }
   };
+
+  const handleLunch = (
+    item: DateWithMealType,
+    index: number,
+    val: boolean,
+  ) => {};
+
+  React.useEffect(() => {
+    console.log(arrayOfDates);
+  }, [arrayOfDates]);
 
   return (
     <MainLayout noScroll={false}>
@@ -196,13 +240,60 @@ export default function UpdateMeal() {
 
       <RedirectButton
         onPress={() => {
-          setToggleButton(prev => (prev == 0 ? 1 : 0));
+          setToggleShowAllDates(prev => !prev);
         }}
         animated={true}
         title="Modify Meals for Specific Dates"
-        animatedValue={toggleButton}
+        animatedValue={toggleShowAllDates ? 1 : 0}
         extraStyle={{marginTop: 25}}
       />
+
+      {toggleShowAllDates &&
+        arrayOfDates.map((item: DateWithMealType, index) => {
+          return (
+            <View
+              key={index}
+              style={[
+                styles.dateDetailsSelector,
+                {marginTop: index === 0 ? 25 : 0},
+              ]}>
+              <AppText
+                styles={{
+                  fontSize: 12,
+                  fontFamily: 'Roboto-Medium',
+                }}>
+                {moment(item.date).format('ll')}
+              </AppText>
+
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <AppText>Lunch</AppText>
+                <CheckBox
+                  value={item.lunch}
+                  tintColors={{false: Colors.lighterGray, true: Colors.lime}}
+                  onValueChange={val => {
+                    handleLunch(item, index, val);
+                    console.log(val);
+                  }}
+                />
+                <AppText
+                  styles={{
+                    marginLeft: 5,
+                  }}>
+                  Dinner
+                </AppText>
+                <CheckBox
+                  value={item.dinner}
+                  tintColors={{false: Colors.lighterGray, true: Colors.lime}}
+                  onValueChange={newValue => setDinner(newValue)}
+                />
+              </View>
+            </View>
+          );
+        })}
     </MainLayout>
   );
 }
@@ -230,5 +321,18 @@ const styles = StyleSheet.create({
     width: 50,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  dateDetailsSelector: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: Dim.width * 0.85,
+    height: 70,
+    borderRadius: 15,
+    backgroundColor: Colors.socialBlack,
+    alignSelf: 'center',
+    marginBottom: 25,
+    alignItems: 'center',
+    paddingRight: 10,
+    paddingLeft: 20,
   },
 });
