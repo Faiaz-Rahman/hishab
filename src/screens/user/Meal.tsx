@@ -5,7 +5,7 @@ import MainLayout from '@layouts/MainLayout';
 import AppText from '@components/common/Text';
 
 import BalanceCard from '@components/common/BalanceCard';
-import {Dim} from '@constants';
+import {Colors, Dim} from '@constants';
 import RedirectButton from '@components/common/RedirectButton';
 import {useNavigation} from '@react-navigation/native';
 
@@ -18,6 +18,12 @@ export default function Meal() {
         size="lg"
         showDate
         balance={500}
+        extraStyles={{
+          backgroundColor: Colors.lime,
+        }}
+        textStyles={{
+          color: '#000',
+        }}
         heading="Your meal balance is:"
       />
       <View style={styles.balanceCardWrapper}>
@@ -28,6 +34,10 @@ export default function Meal() {
           onExpand={() => {
             console.log('expand meal rate');
           }}
+          extraStyles={{
+            borderWidth: 3,
+            borderColor: Colors.lime,
+          }}
         />
         <BalanceCard
           size="sm"
@@ -35,6 +45,10 @@ export default function Meal() {
           showRoundedBalance
           onExpand={() => {
             console.log('expand funds');
+          }}
+          extraStyles={{
+            borderWidth: 3,
+            borderColor: Colors.lime,
           }}
         />
       </View>

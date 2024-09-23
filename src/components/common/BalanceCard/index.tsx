@@ -1,4 +1,11 @@
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  ViewStyle,
+  TextStyle,
+} from 'react-native';
 import React from 'react';
 import {Colors, Dim} from '@constants';
 import moment from 'moment';
@@ -13,6 +20,8 @@ interface BalanceCardProps {
   heading?: string;
   showRoundedBalance?: boolean;
   onExpand?: () => void;
+  extraStyles?: ViewStyle;
+  textStyles?: TextStyle;
 }
 
 export default function BalanceCard({
@@ -22,6 +31,8 @@ export default function BalanceCard({
   heading,
   showRoundedBalance,
   onExpand,
+  extraStyles,
+  textStyles,
 }: BalanceCardProps) {
   return (
     <View
@@ -31,19 +42,37 @@ export default function BalanceCard({
           height: size === 'sm' ? Dim.height * 0.2 : Dim.height * 0.3,
           width: size === 'sm' ? Dim.width * 0.4 : Dim.width * 0.85,
         },
+        extraStyles,
       ]}>
       {size === 'lg' ? (
         <>
-          <AppText>{moment().format('MMMM DD')}</AppText>
+          <AppText
+            styles={{
+              ...textStyles,
+              fontFamily: 'Roboto-Bold',
+              fontSize: 15,
+            }}>
+            {moment().format('MMMM DD')}
+          </AppText>
           <AppText
             styles={{
               color: Colors.lighterGray,
+              fontFamily: 'Roboto-Medium',
               marginTop: 'auto',
+              fontSize: 15,
+              ...textStyles,
             }}>
             {heading}
           </AppText>
 
-          <AppText styles={{fontSize: 40}}>{balance?.toFixed(2)}৳</AppText>
+          <AppText
+            styles={{
+              fontSize: 40,
+              ...textStyles,
+              fontFamily: 'Poppins-SemiBold',
+            }}>
+            {balance?.toFixed(2)}৳
+          </AppText>
         </>
       ) : (
         <>
@@ -80,7 +109,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingLeft: 20,
     paddingBottom: 5,
-    backgroundColor: Colors.socialBlack,
   },
   headerWrapper: {
     width: '100%',
