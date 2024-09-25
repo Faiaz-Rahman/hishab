@@ -252,7 +252,7 @@ export default function UpdateMeal() {
         arrayOfDates.map((item: DateWithMealType, index) => {
           return (
             <View
-              key={index}
+              key={`dateDeltailsSelector${index}`}
               style={[
                 styles.dateDetailsSelector,
                 {marginTop: index === 0 ? 25 : 0},
@@ -275,8 +275,14 @@ export default function UpdateMeal() {
                   value={item.lunch}
                   tintColors={{false: Colors.lighterGray, true: Colors.lime}}
                   onValueChange={val => {
-                    handleLunch(item, index, val);
                     console.log(val);
+                    setArrayOfDates(prev =>
+                      prev.map((eachDate, index) => {
+                        return eachDate.date === item.date
+                          ? {...eachDate, lunch: val}
+                          : eachDate;
+                      }),
+                    );
                   }}
                 />
                 <AppText
@@ -288,7 +294,15 @@ export default function UpdateMeal() {
                 <CheckBox
                   value={item.dinner}
                   tintColors={{false: Colors.lighterGray, true: Colors.lime}}
-                  onValueChange={newValue => setDinner(newValue)}
+                  onValueChange={val => {
+                    setArrayOfDates(prev =>
+                      prev.map((eachDate, index) => {
+                        return eachDate.date === item.date
+                          ? {...eachDate, dinner: val}
+                          : eachDate;
+                      }),
+                    );
+                  }}
                 />
               </View>
             </View>
