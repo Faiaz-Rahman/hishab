@@ -66,7 +66,8 @@ export default function Meal() {
       <RedirectButton
         title="Add New Expense"
         onPress={() => {
-          console.log('all expenses');
+          console.log('add new expense');
+          navigation.navigate('new_expense' as never);
         }}
         extraStyle={{
           marginTop: 25,
