@@ -317,7 +317,7 @@ export default function UpdateMeal() {
           height: 70,
           alignSelf: 'center',
           borderRadius: 15,
-          marginTop: toggleShowAllDates ? 0 : 25,
+          marginTop: toggleShowAllDates && arrayOfDates.length > 0 ? 0 : 25,
         }}
         onPress={() => {}}
       />
