@@ -12,6 +12,7 @@ import AppText from '@components/common/Text';
 import RedirectButton from '@components/common/RedirectButton';
 import Animated from 'react-native-reanimated';
 import CheckBox from '@react-native-community/checkbox';
+import Button from '@components/common/Button';
 
 type DateWithMealType = {
   date: string;
@@ -308,6 +309,18 @@ export default function UpdateMeal() {
             </View>
           );
         })}
+
+      <Button
+        title="Save Changes"
+        width={Dim.width * 0.85}
+        buttonStyle={{
+          height: 70,
+          alignSelf: 'center',
+          borderRadius: 15,
+          marginTop: toggleShowAllDates ? 0 : 25,
+        }}
+        onPress={() => {}}
+      />
     </MainLayout>
   );
 }

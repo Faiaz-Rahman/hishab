@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   StyleProp,
+  ViewStyle,
 } from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
@@ -13,7 +14,7 @@ import AppText from '../Text';
 interface ButtonProps {
   width: number;
   title: string;
-  buttonStyle?: Object;
+  buttonStyle?: ViewStyle;
   titleStyle?: Object;
   onPress: () => void;
 }

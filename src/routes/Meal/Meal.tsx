@@ -1,6 +1,6 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import Meal from '@screens/user/Meal';
-import UpdateMeal from '@screens/user/UpdateMeal';
+import Meal from '@screens/meal/Meal';
+import UpdateMeal from '@screens/meal/UpdateMeal';
 
 const Stack = createStackNavigator();
 
