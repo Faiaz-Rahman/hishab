@@ -13,6 +13,7 @@ import RedirectButton from '@components/common/RedirectButton';
 import Animated from 'react-native-reanimated';
 import CheckBox from '@react-native-community/checkbox';
 import Button from '@components/common/Button';
+import Header from '@components/common/Header';
 
 type DateWithMealType = {
   date: string;
@@ -190,23 +191,14 @@ export default function UpdateMeal() {
 
   return (
     <MainLayout noScroll={false}>
-      <View
-        style={{
-          height: 50,
-          //   backgroundColor: 'red',
-          width: Dim.width,
-          paddingLeft: Dim.width * 0.075 - 15,
-          alignSelf: 'center',
-          marginBottom: 10,
-        }}>
-        <Pressable
-          onPress={() => {
-            navigation.goBack();
-          }}
-          style={styles.backbutton}>
-          <Entypo name="chevron-thin-left" size={20} color={'#fff'} />
-        </Pressable>
-      </View>
+      <Header
+        onPressBackButton={() => navigation.goBack()}
+        title="Update Meal"
+        titleStyle={{
+          fontSize: 20,
+          fontFamily: 'Roboto-Medium',
+        }}
+      />
 
       <Calendar
         style={styles.calendar}

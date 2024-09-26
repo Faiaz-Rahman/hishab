@@ -1,10 +1,9 @@
 import {
   View,
-  Text,
   TouchableOpacity,
   StyleSheet,
   TextInput as RNTextInput,
-  TextStyle,
+  ViewStyle,
 } from 'react-native';
 
 import React, {useState} from 'react';
@@ -13,7 +12,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Colors} from '@constants';
 
 interface AppTextInputProps {
-  style?: TextStyle;
+  style?: ViewStyle;
   placeholder: string;
   placeholderTextColor: string;
   onFocus: () => void;
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   input: {
-    height: 40,
+    height: '100%',
     width: '85%',
     paddingLeft: 20,
     fontSize: 12,

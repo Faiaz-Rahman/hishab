@@ -16,6 +16,7 @@ interface MainLayoutProps {
   noScroll: boolean;
   floatingButton?: boolean;
   floatingButtonComponent?: React.ReactNode;
+  floatingButtonOnPress?: () => void;
 }
 
 export default function MainLayout({
@@ -23,6 +24,7 @@ export default function MainLayout({
   noScroll,
   floatingButton,
   floatingButtonComponent,
+  floatingButtonOnPress,
 }: MainLayoutProps) {
   return (
     <View style={{flex: 1, backgroundColor: '#000', position: 'relative'}}>
@@ -44,6 +46,11 @@ export default function MainLayout({
             style={{
               height: 60,
               width: 60,
+            }}
+            onPress={() => {
+              if (floatingButtonOnPress) {
+                floatingButtonOnPress();
+              }
             }}>
             <LinearGradient
               colors={Colors.gradient}
@@ -65,8 +72,8 @@ export default function MainLayout({
                   }>
                   <LinearGradient
                     colors={Colors.gradient}
-                    start={{x: 0, y: 1}}
-                    end={{x: 1, y: 0}}
+                    start={{x: 0, y: 0.6}}
+                    end={{x: 0.6, y: 0}}
                     locations={[0, 0.25, 0.6]}
                     style={{height: 30, width: 30}}
                   />
