@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, useAnimatedValue} from 'react-native';
 import React, {useState} from 'react';
 import MainLayout from '@layouts/MainLayout';
 
@@ -21,9 +21,13 @@ export default function AddNewExpense() {
   const [itemList, setItemList] = useState<ItemListType[]>([]);
   const navigation = useNavigation();
 
-  React.useEffect(() => {
-    console.log(itemList);
-  }, [itemList]);
+  const handleDelete = (item: ItemListType) => {
+    setItemList(prev =>
+      prev.map(val => val.id === item.id)
+        ? prev.filter(val => val.id !== item.id)
+        : [],
+    );
+  };
 
   return (
     <MainLayout
@@ -57,11 +61,7 @@ export default function AddNewExpense() {
                 key={`itemList_${index}`}
                 no={index + 1}
                 onDelete={() => {
-                  setItemList(prev => {
-                    const arr = prev.slice(0, index);
-                    const arr_last = prev.slice(index + 1, prev.length);
-                    return [...arr, ...arr_last];
-                  });
+                  handleDelete(item);
                 }}
               />
             );
