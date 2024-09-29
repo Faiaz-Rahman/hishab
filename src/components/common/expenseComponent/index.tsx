@@ -5,7 +5,6 @@ import {Colors, Dim} from '@constants';
 import AppText from '../Text';
 import LinearGradient from 'react-native-linear-gradient';
 import Animated, {
-  Layout,
   LightSpeedInLeft,
   LightSpeedOutRight,
 } from 'react-native-reanimated';
@@ -13,15 +12,20 @@ import Animated, {
 interface ExpenseComponentProps {
   no: number;
   onDelete: () => void;
+  updateFirstTextInput: (index: number, value: string) => void;
+  updatePrice: (index: number, value: number) => void;
+  updateQuantity: (index: number, value: number) => void;
 }
 export default function ExpenseComponent({
   no,
   onDelete,
+  updateFirstTextInput,
+  updateQuantity,
+  updatePrice,
 }: ExpenseComponentProps) {
   return (
     <Animated.View
       style={[]}
-      layout={Layout.springify()}
       entering={LightSpeedInLeft}
       exiting={LightSpeedOutRight}>
       <View style={styles.inputWrapper}>
@@ -31,7 +35,7 @@ export default function ExpenseComponent({
               marginLeft: Dim.width * 0.075 + 5,
               fontFamily: 'Poppins-Bold',
             }}>
-            Item No. {no}
+            Item No. {no + 1}
           </AppText>
 
           <Pressable
@@ -61,7 +65,7 @@ export default function ExpenseComponent({
           placeholder="Item Name?"
           placeholderTextColor={Colors.lighterGray}
           onChangeText={text => {
-            console.log(text);
+            updateFirstTextInput(no, text);
           }}
           style={{
             width: Dim.width * 0.8,
@@ -77,7 +81,7 @@ export default function ExpenseComponent({
           placeholder="Item Quantity?"
           placeholderTextColor={Colors.lighterGray}
           onChangeText={text => {
-            console.log(text);
+            updateQuantity(no, parseInt(text));
           }}
           style={{
             width: Dim.width * 0.8,
@@ -90,10 +94,10 @@ export default function ExpenseComponent({
 
         <TextInput
           showPassword
-          placeholder="Price?"
+          placeholder="Price? (BDT)"
           placeholderTextColor={Colors.lighterGray}
           onChangeText={text => {
-            console.log(text);
+            updatePrice(no, parseInt(text));
           }}
           style={{
             width: Dim.width * 0.8,

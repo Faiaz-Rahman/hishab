@@ -13,8 +13,8 @@ import ExpenseComponent from '@components/common/expenseComponent';
 type ItemListType = {
   id?: number;
   itemName: string;
-  quantity: string;
-  price: string;
+  quantity: number;
+  price: number;
 };
 
 export default function AddNewExpense() {
@@ -29,6 +29,39 @@ export default function AddNewExpense() {
     );
   };
 
+  //using callbacks so that children component ExpenseComponent can update
+  //parents component's state inside its scope.
+  const updateItemName = (index: number, value: string) => {
+    console.log('selected index =>', index);
+    setItemList(prev =>
+      prev.map((item, ind) => {
+        // console.log('print it =>', item);
+        return item.id === index ? {...item, itemName: value} : {...item};
+      }),
+    );
+  };
+
+  const updateQuantity = (index: number, value: number) => {
+    console.log('selected index =>', index);
+    setItemList(prev =>
+      prev.map((item, ind) => {
+        return item.id === index ? {...item, quantity: value} : {...item};
+      }),
+    );
+  };
+
+  const updatePrice = (index: number, value: number) => {
+    setItemList(prev =>
+      prev.map((item, ind) => {
+        return item.id === index ? {...item, price: value} : {...item};
+      }),
+    );
+  };
+
+  // React.useEffect(() => {
+  //   console.log(itemList);
+  // }, [itemList]);
+
   return (
     <MainLayout
       noScroll={false}
@@ -37,7 +70,7 @@ export default function AddNewExpense() {
       floatingButtonOnPress={() => {
         setItemList(prev => [
           ...prev,
-          {id: prev.length, itemName: '', price: '', quantity: ''},
+          {id: prev.length, itemName: '', price: 0, quantity: 0},
         ]);
       }}>
       <Header
@@ -59,7 +92,10 @@ export default function AddNewExpense() {
             return (
               <ExpenseComponent
                 key={`itemList_${index}`}
-                no={index + 1}
+                no={index}
+                updateFirstTextInput={updateItemName}
+                updatePrice={updatePrice}
+                updateQuantity={updateQuantity}
                 onDelete={() => {
                   handleDelete(item);
                 }}
