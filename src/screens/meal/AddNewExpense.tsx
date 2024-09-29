@@ -32,7 +32,6 @@ export default function AddNewExpense() {
   //using callbacks so that children component ExpenseComponent can update
   //parents component's state inside its scope.
   const updateItemName = (index: number, value: string) => {
-    console.log('selected index =>', index);
     setItemList(prev =>
       prev.map((item, ind) => {
         // console.log('print it =>', item);
@@ -42,7 +41,6 @@ export default function AddNewExpense() {
   };
 
   const updateQuantity = (index: number, value: number) => {
-    console.log('selected index =>', index);
     setItemList(prev =>
       prev.map((item, ind) => {
         return item.id === index ? {...item, quantity: value} : {...item};

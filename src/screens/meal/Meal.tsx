@@ -57,6 +57,7 @@ export default function Meal() {
         title="All Expenses"
         onPress={() => {
           console.log('all expenses');
+          navigation.navigate('all_expenses' as never);
         }}
         extraStyle={{
           marginTop: 25,
