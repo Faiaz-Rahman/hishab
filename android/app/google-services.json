@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "746608084391",
+    "project_id": "hishab-bb842",
+    "storage_bucket": "hishab-bb842.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746608084391:android:97ef1d410fcdb04273a282",
+        "android_client_info": {
+          "package_name": "com.hishab"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9lXHW9dDrlboW5yxiw0fSL8IqYTIbZH4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
