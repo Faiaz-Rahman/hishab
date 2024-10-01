@@ -29,8 +29,6 @@ export default function UpdateMeal() {
   const [objOfDates, setObjOfDates] = useState({});
   const [toggleShowAllDates, setToggleShowAllDates] = useState(false);
   const [arrayOfDates, setArrayOfDates] = useState<Array<DateWithMealType>>([]);
-  const [dinner, setDinner] = useState<boolean>(true);
-  const [lunch, setLunch] = useState<boolean>(true);
 
   const generateDateObj = (
     year: string,
@@ -38,25 +36,28 @@ export default function UpdateMeal() {
     sDay: number,
     eDay: number,
   ) => {
+    1;
     const dateObj: any = {};
 
     for (let i = sDay; i <= eDay; ++i) {
+      let index: string = i <= 9 ? `0${i}` : `${i}`;
+
       if (i === sDay) {
-        dateObj[`${year}-${month}-${i}`] = {
+        dateObj[`${year}-${month}-${index}`] = {
           startingDay: true,
           selected: true,
           selectedColor: Colors.socialBlue,
           marked: true,
         };
       } else if (i === eDay) {
-        dateObj[`${year}-${month}-${i}`] = {
+        dateObj[`${year}-${month}-${index}`] = {
           endingDay: true,
           selected: true,
           selectedColor: Colors.socialBlue,
           marked: true,
         };
       } else {
-        dateObj[`${year}-${month}-${i}`] = {
+        dateObj[`${year}-${month}-${index}`] = {
           selected: true,
           selectedColor: Colors.socialPink,
         };
@@ -179,15 +180,10 @@ export default function UpdateMeal() {
     }
   };
 
-  const handleLunch = (
-    item: DateWithMealType,
-    index: number,
-    val: boolean,
-  ) => {};
-
-  React.useEffect(() => {
-    console.log(arrayOfDates);
-  }, [arrayOfDates]);
+  // React.useEffect(() => {
+  // console.log(arrayOfDates);
+  // console.log('object of dates=>', objOfDates);
+  // }, [arrayOfDates, objOfDates]);
 
   return (
     <MainLayout noScroll={false}>

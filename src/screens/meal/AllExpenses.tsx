@@ -4,11 +4,7 @@ import MainLayout from '@layouts/MainLayout';
 import {useNavigation} from '@react-navigation/native';
 import Header from '@components/common/Header';
 
-import AllExpenseComponent from '@components/AllExpenseComponent';
-import CustomModal from '@components/ui/Modal';
-
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {Colors} from '@constants';
+import AllExpenseComponent from '@components/common/AllExpenseComponent';
 
 export default function AllExpenses() {
   const navigation = useNavigation();
