@@ -1,4 +1,5 @@
 import {Colors, Dim} from '@constants';
+import {MainLayoutProps} from '@interfaces/*';
 import MaskedView from '@react-native-masked-view/masked-view';
 import React from 'react';
 import {
@@ -10,14 +11,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-
-interface MainLayoutProps {
-  children: React.ReactNode;
-  noScroll: boolean;
-  floatingButton?: boolean;
-  floatingButtonComponent?: React.ReactNode;
-  floatingButtonOnPress?: () => void;
-}
 
 export default function MainLayout({
   children,

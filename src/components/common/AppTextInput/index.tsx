@@ -10,29 +10,7 @@ import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 
 import {Colors} from '@constants';
-
-interface AppTextInputProps {
-  style?: ViewStyle;
-  placeholder: string;
-  placeholderTextColor: string;
-  onFocus: () => void;
-  onBlur: () => void;
-  onChangeText: (text: string) => void;
-  children?: React.ReactNode;
-  useGradient?: boolean;
-  preIcon?: React.ReactNode;
-  showRightIcon?: boolean;
-  toggleShowPassword?: () => void;
-  showPassword?: boolean;
-  keyboardType?:
-    | 'default'
-    | 'number-pad'
-    | 'decimal-pad'
-    | 'numeric'
-    | 'phone-pad'
-    | 'url'
-    | 'email-address';
-}
+import {AppTextInputProps} from '@interfaces/*';
 
 export default function TextInput({
   style,

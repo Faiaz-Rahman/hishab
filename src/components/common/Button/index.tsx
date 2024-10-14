@@ -10,14 +10,7 @@ import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {Colors} from '@constants';
 import AppText from '../Text';
-
-interface ButtonProps {
-  width: number;
-  title: string;
-  buttonStyle?: ViewStyle;
-  titleStyle?: Object;
-  onPress: () => void;
-}
+import {ButtonProps} from '@interfaces/*';
 
 export default function Button({
   width,
