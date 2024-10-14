@@ -20,14 +20,23 @@ export default function MainLayout({
   floatingButtonOnPress,
 }: MainLayoutProps) {
   return (
-    <View style={{flex: 1, backgroundColor: '#000', position: 'relative'}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#000',
+        position: 'relative',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
       {noScroll ? (
         <View style={styles.mainLayout}>
           <StatusBar barStyle={'light-content'} backgroundColor={'#000'} />
           {children}
         </View>
       ) : (
-        <ScrollView contentContainerStyle={styles.scrollview}>
+        <ScrollView
+          contentContainerStyle={styles.scrollview}
+          showsVerticalScrollIndicator={false}>
           <StatusBar barStyle={'light-content'} backgroundColor={'#000'} />
           {children}
         </ScrollView>
@@ -95,7 +104,9 @@ const styles = StyleSheet.create({
   },
   scrollview: {
     paddingTop: 30,
+    // alignItems: 'center',
     backgroundColor: '#000',
+    width: Dim.width,
     paddingBottom: Dim.height * 0.2,
   },
   floatingButtonWrapper: {

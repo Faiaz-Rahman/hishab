@@ -1,4 +1,4 @@
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
 import MainLayout from '@layouts/MainLayout';
 import {useNavigation} from '@react-navigation/native';
@@ -40,17 +40,12 @@ export default function AllExpenses() {
               totalAmount={460}
               username="Muhammad Fiaz"
               onPress={() => {
-                console.log('privyet!');
+                navigation.navigate('detailed_expenses' as never);
                 // setShowModal(true);
               }}>
               <Image
                 source={require('@assets/images/user1.png')}
-                style={{
-                  height: 40,
-                  width: 40,
-                  borderRadius: 50,
-                  resizeMode: 'contain',
-                }}
+                style={styles.userImage}
               />
             </AllExpenseComponent>
           );
@@ -59,3 +54,12 @@ export default function AllExpenses() {
     </MainLayout>
   );
 }
+
+const styles = StyleSheet.create({
+  userImage: {
+    height: 40,
+    width: 40,
+    borderRadius: 50,
+    resizeMode: 'contain',
+  },
+});
