@@ -24,6 +24,14 @@ interface AppTextInputProps {
   showRightIcon?: boolean;
   toggleShowPassword?: () => void;
   showPassword?: boolean;
+  keyboardType?:
+    | 'default'
+    | 'number-pad'
+    | 'decimal-pad'
+    | 'numeric'
+    | 'phone-pad'
+    | 'url'
+    | 'email-address';
 }
 
 export default function TextInput({
@@ -39,6 +47,7 @@ export default function TextInput({
   showRightIcon = false,
   toggleShowPassword,
   showPassword,
+  keyboardType,
 }: AppTextInputProps) {
   return (
     <View style={[styles.inputWrapper, style]}>
@@ -49,6 +58,7 @@ export default function TextInput({
         ]}>
         {preIcon && <View style={styles.preIconWrapper}>{preIcon}</View>}
         <RNTextInput
+          keyboardType={keyboardType ? keyboardType : 'default'}
           secureTextEntry={showPassword ? false : true}
           onChangeText={onChangeText}
           style={[styles.input, {width: preIcon ? '85%' : '100%'}]}

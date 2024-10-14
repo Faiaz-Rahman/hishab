@@ -95,6 +95,7 @@ export default function ExpenseComponent({
         <TextInput
           showPassword
           placeholder="Price? (BDT)"
+          keyboardType="numeric"
           placeholderTextColor={Colors.lighterGray}
           onChangeText={text => {
             updatePrice(no, parseInt(text));

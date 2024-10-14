@@ -17,8 +17,8 @@ export default function UserRouter() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarActiveTintColor: '#fff',
-        tabBarActiveBackgroundColor: Colors.socialBlue,
+        tabBarActiveTintColor: '#000',
+        tabBarActiveBackgroundColor: Colors.lime,
         tabBarInactiveTintColor: Colors.socialWhite,
         tabBarInactiveBackgroundColor: Colors.darkBlack,
       }}>
@@ -31,8 +31,8 @@ export default function UserRouter() {
               <Image
                 source={require('@assets/images/restaurant.png')}
                 style={{
-                  height: 24,
-                  width: 24,
+                  height: 23,
+                  width: 23,
                 }}
                 resizeMode="contain"
                 tintColor={color}
@@ -50,8 +50,8 @@ export default function UserRouter() {
               <Image
                 source={require('@assets/images/rent.png')}
                 style={{
-                  height: 24,
-                  width: 24,
+                  height: 23,
+                  width: 23,
                 }}
                 resizeMode="contain"
                 tintColor={color}
@@ -69,8 +69,8 @@ export default function UserRouter() {
               <Image
                 source={require('@assets/images/utilities.png')}
                 style={{
-                  height: 24,
-                  width: 24,
+                  height: 23,
+                  width: 23,
                 }}
                 resizeMode="contain"
                 tintColor={color}
@@ -84,7 +84,7 @@ export default function UserRouter() {
         component={Profile}
         options={{
           tabBarIcon: ({color, focused}) => {
-            return <FontAwesome name="user-circle" size={24} color={color} />;
+            return <FontAwesome name="user-circle" size={23} color={color} />;
           },
         }}
       />
