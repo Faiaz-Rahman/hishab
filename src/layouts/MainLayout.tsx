@@ -1,4 +1,5 @@
 import {Colors, Dim} from '@constants';
+import {MainLayoutProps} from '@interfaces/*';
 import MaskedView from '@react-native-masked-view/masked-view';
 import React from 'react';
 import {
@@ -11,14 +12,6 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-interface MainLayoutProps {
-  children: React.ReactNode;
-  noScroll: boolean;
-  floatingButton?: boolean;
-  floatingButtonComponent?: React.ReactNode;
-  floatingButtonOnPress?: () => void;
-}
-
 export default function MainLayout({
   children,
   noScroll,
@@ -27,14 +20,23 @@ export default function MainLayout({
   floatingButtonOnPress,
 }: MainLayoutProps) {
   return (
-    <View style={{flex: 1, backgroundColor: '#000', position: 'relative'}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#000',
+        position: 'relative',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
       {noScroll ? (
         <View style={styles.mainLayout}>
           <StatusBar barStyle={'light-content'} backgroundColor={'#000'} />
           {children}
         </View>
       ) : (
-        <ScrollView contentContainerStyle={styles.scrollview}>
+        <ScrollView
+          contentContainerStyle={styles.scrollview}
+          showsVerticalScrollIndicator={false}>
           <StatusBar barStyle={'light-content'} backgroundColor={'#000'} />
           {children}
         </ScrollView>
@@ -102,7 +104,9 @@ const styles = StyleSheet.create({
   },
   scrollview: {
     paddingTop: 30,
+    // alignItems: 'center',
     backgroundColor: '#000',
+    width: Dim.width,
     paddingBottom: Dim.height * 0.2,
   },
   floatingButtonWrapper: {

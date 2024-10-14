@@ -4,16 +4,7 @@ import AppText from '@components/common/Text';
 import {Colors} from '@constants';
 
 import Feather from 'react-native-vector-icons/Feather';
-
-interface CustomModalType {
-  visible?: boolean;
-  onRequestClose?: () => void;
-  headerText?: string;
-  headerIcon?: React.ReactNode;
-  title: string;
-  onPressNo?: () => void;
-  onPressYes?: () => void;
-}
+import {CustomModalType} from '@interfaces/*';
 
 export default function CustomModal({
   visible = false,

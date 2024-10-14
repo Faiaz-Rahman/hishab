@@ -10,21 +10,7 @@ import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 
 import {Colors} from '@constants';
-
-interface AppTextInputProps {
-  style?: ViewStyle;
-  placeholder: string;
-  placeholderTextColor: string;
-  onFocus: () => void;
-  onBlur: () => void;
-  onChangeText: (text: string) => void;
-  children?: React.ReactNode;
-  useGradient?: boolean;
-  preIcon?: React.ReactNode;
-  showRightIcon?: boolean;
-  toggleShowPassword?: () => void;
-  showPassword?: boolean;
-}
+import {AppTextInputProps} from '@interfaces/*';
 
 export default function TextInput({
   style,
@@ -39,6 +25,7 @@ export default function TextInput({
   showRightIcon = false,
   toggleShowPassword,
   showPassword,
+  keyboardType,
 }: AppTextInputProps) {
   return (
     <View style={[styles.inputWrapper, style]}>
@@ -49,6 +36,7 @@ export default function TextInput({
         ]}>
         {preIcon && <View style={styles.preIconWrapper}>{preIcon}</View>}
         <RNTextInput
+          keyboardType={keyboardType ? keyboardType : 'default'}
           secureTextEntry={showPassword ? false : true}
           onChangeText={onChangeText}
           style={[styles.input, {width: preIcon ? '85%' : '100%'}]}
