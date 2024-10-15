@@ -14,7 +14,6 @@ const AuthRoute = (): React.JSX.Element => {
       }}>
       <Stack.Screen name="login" component={Login} />
       <Stack.Screen name="signup" component={SignUp} />
-      <Stack.Screen name="loader" component={Loader} />
     </Stack.Navigator>
   );
 };
