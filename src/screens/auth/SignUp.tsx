@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.darkBlack,
+    backgroundColor: '#000',
     position: 'relative',
   },
   backButton: {

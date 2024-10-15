@@ -24,7 +24,7 @@ export default function TextInput({
   preIcon,
   showRightIcon = false,
   toggleShowPassword,
-  showPassword,
+  showPassword = true,
   keyboardType,
 }: AppTextInputProps) {
   return (
