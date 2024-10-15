@@ -21,7 +21,11 @@ import LogoItem from '@components/common/logoItem';
 
 import {useSelector} from 'react-redux';
 import {RootState, useAppDispatch} from '@store/index';
-import {login, updateIsAuthenticated} from '@store/slices/authSlice';
+import {
+  login,
+  updateAuthLoader,
+  updateIsAuthenticated,
+} from '@store/slices/authSlice';
 
 export default function Login() {
   const [showPass, setShowPass] = useState<boolean>(false);
@@ -41,7 +45,13 @@ export default function Login() {
       ToastAndroid.showWithGravity('Fill up the data first!', 1500, 10);
     } else {
       try {
-        await dispatch(login({email: email, password: password})).unwrap();
+        await dispatch(login({email: email, password: password}))
+          .unwrap()
+          .then(() => {
+            setTimeout(() => {
+              dispatch(updateAuthLoader(false));
+            }, 2500);
+          });
       } catch (error: any) {
         ToastAndroid.showWithGravity(error, 1500, 10);
         // console.log('error in login =>', error);

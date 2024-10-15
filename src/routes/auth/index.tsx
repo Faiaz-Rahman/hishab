@@ -8,7 +8,7 @@ const Stack = createStackNavigator();
 const AuthRoute = (): React.JSX.Element => {
   return (
     <Stack.Navigator
-      initialRouteName="loader"
+      initialRouteName="login"
       screenOptions={{
         headerShown: false,
       }}>

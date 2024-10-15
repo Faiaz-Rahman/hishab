@@ -42,6 +42,9 @@ const authSlice = createSlice({
     updateIsAuthenticated: (state, actions) => {
       state.isAuthenticated = actions.payload;
     },
+    updateAuthLoader: (state, actions) => {
+      state.authLoader = actions.payload;
+    },
   },
   extraReducers(builder) {
     builder.addCase(login.pending, (state, action) => {
@@ -59,6 +62,6 @@ const authSlice = createSlice({
   },
 });
 
-export const {updateIsAuthenticated} = authSlice.actions;
+export const {updateIsAuthenticated, updateAuthLoader} = authSlice.actions;
 
 export default authSlice.reducer;
