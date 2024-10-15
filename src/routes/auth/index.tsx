@@ -1,4 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
+import Loader from '@screens/auth/Loader';
 import Login from '@screens/auth/Login';
 import SignUp from '@screens/auth/SignUp';
 
