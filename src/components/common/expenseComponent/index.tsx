@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, Pressable, LayoutAnimation} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import TextInput from '../AppTextInput';
 import {Colors, Dim} from '@constants';
 import AppText from '../Text';
@@ -12,9 +12,12 @@ import Animated, {
 interface ExpenseComponentProps {
   no: number;
   onDelete: () => void;
-  updateFirstTextInput: (index: number, value: string) => void;
-  updatePrice: (index: number, value: number) => void;
-  updateQuantity: (index: number, value: number) => void;
+  updateFirstTextInput: (value: string) => void;
+  updatePrice: (value: string) => void;
+  updateQuantity: (value: string) => void;
+  itemNameErrorMessage: string | undefined;
+  itemQuantityErrorMessage: string | undefined;
+  priceErrorMessage: string | undefined;
 }
 export default function ExpenseComponent({
   no,
@@ -22,6 +25,9 @@ export default function ExpenseComponent({
   updateFirstTextInput,
   updateQuantity,
   updatePrice,
+  itemNameErrorMessage,
+  itemQuantityErrorMessage,
+  priceErrorMessage,
 }: ExpenseComponentProps) {
   return (
     <Animated.View
@@ -65,7 +71,31 @@ export default function ExpenseComponent({
           placeholder="Item Name?"
           placeholderTextColor={Colors.lighterGray}
           onChangeText={text => {
-            updateFirstTextInput(no, text);
+            updateFirstTextInput(text);
+          }}
+          style={{
+            width: Dim.width * 0.8,
+            height: 70,
+            borderRadius: 10,
+          }}
+          onBlur={() => {}}
+          onFocus={() => {}}
+        />
+        <View style={styles.errorMessageWrapper}>
+          {itemNameErrorMessage && (
+            <Text style={{color: '#fff', fontSize: 8, fontWeight: '400'}}>
+              {itemNameErrorMessage}
+            </Text>
+          )}
+        </View>
+
+        <TextInput
+          showPassword
+          placeholder="Item Quantity? (kg./pcs./g.)"
+          keyboardType="numeric"
+          placeholderTextColor={Colors.lighterGray}
+          onChangeText={text => {
+            updateQuantity(text);
           }}
           style={{
             width: Dim.width * 0.8,
@@ -76,21 +106,13 @@ export default function ExpenseComponent({
           onFocus={() => {}}
         />
 
-        <TextInput
-          showPassword
-          placeholder="Item Quantity?"
-          placeholderTextColor={Colors.lighterGray}
-          onChangeText={text => {
-            updateQuantity(no, parseInt(text));
-          }}
-          style={{
-            width: Dim.width * 0.8,
-            height: 70,
-            borderRadius: 10,
-          }}
-          onBlur={() => {}}
-          onFocus={() => {}}
-        />
+        <View style={styles.errorMessageWrapper}>
+          {itemQuantityErrorMessage && (
+            <Text style={{color: '#fff', fontSize: 8, fontWeight: '400'}}>
+              {itemQuantityErrorMessage}
+            </Text>
+          )}
+        </View>
 
         <TextInput
           showPassword
@@ -98,7 +120,7 @@ export default function ExpenseComponent({
           keyboardType="numeric"
           placeholderTextColor={Colors.lighterGray}
           onChangeText={text => {
-            updatePrice(no, parseInt(text));
+            updatePrice(text);
           }}
           style={{
             width: Dim.width * 0.8,
@@ -108,6 +130,14 @@ export default function ExpenseComponent({
           onBlur={() => {}}
           onFocus={() => {}}
         />
+
+        <View style={styles.errorMessageWrapper}>
+          {priceErrorMessage && (
+            <Text style={{color: '#fff', fontSize: 8, fontWeight: '400'}}>
+              {priceErrorMessage}
+            </Text>
+          )}
+        </View>
       </View>
     </Animated.View>
   );
@@ -117,7 +147,6 @@ const styles = StyleSheet.create({
   inputWrapper: {
     width: Dim.width,
     // backgroundColor: 'red',
-    gap: 10,
     height: Dim.height * 0.45,
   },
   extraTextInputStyle: {
@@ -131,5 +160,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     // backgroundColor: 'green',
     paddingRight: Dim.width * 0.1,
+    marginBottom: 15,
+  },
+  errorMessageWrapper: {
+    // backgroundColor: 'orange',
+    height: 15,
+    width: Dim.width * 0.8,
+    alignSelf: 'center',
+    paddingLeft: 10,
+    justifyContent: 'center',
   },
 });

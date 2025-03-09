@@ -48,4 +48,6 @@ export interface ButtonProps {
   buttonStyle?: ViewStyle;
   titleStyle?: Object;
   onPress: () => void;
+  children?: React.ReactNode;
+  disabled?: boolean;
 }

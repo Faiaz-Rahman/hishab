@@ -18,10 +18,13 @@ export default function Button({
   buttonStyle,
   titleStyle,
   onPress,
+  children,
+  disabled = false,
 }: ButtonProps) {
   return (
     <TouchableOpacity
       style={[styles.button, {width}, buttonStyle]}
+      disabled={disabled}
       onPress={onPress}>
       <LinearGradient
         colors={Colors.gradient}
@@ -35,6 +38,7 @@ export default function Button({
             ...titleStyle,
           }}>
           {title}
+          {children}
         </AppText>
       </LinearGradient>
     </TouchableOpacity>
@@ -52,5 +56,6 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    gap: 5,
   },
 });
