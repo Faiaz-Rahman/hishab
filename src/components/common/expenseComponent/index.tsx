@@ -91,7 +91,7 @@ export default function ExpenseComponent({
 
         <TextInput
           showPassword
-          placeholder="Item Quantity?"
+          placeholder="Item Quantity? (kg./pcs./g.)"
           keyboardType="numeric"
           placeholderTextColor={Colors.lighterGray}
           onChangeText={text => {

@@ -1,4 +1,4 @@
-import {View, StyleSheet, ActivityIndicator} from 'react-native';
+import {View, StyleSheet, ActivityIndicator, ToastAndroid} from 'react-native';
 import React, {useState} from 'react';
 import MainLayout from '@layouts/MainLayout';
 
@@ -98,17 +98,32 @@ export default function AddNewExpense() {
         .doc(`${auth().currentUser?.uid}`)
         .get();
 
+      let totalPr = values.reduce(
+        (total, item: ItemListType) => total + parseInt(item.price),
+        0,
+      );
+
       if (!newExpense.exists) {
         console.log('no such collection');
+
         await firestore()
           .collection('pending')
           .doc(`${auth().currentUser?.uid}`)
           .set({
-            pendingValues: values,
+            pending: {
+              pendingValues: values,
+              totalPrice: totalPr,
+            },
           })
           .then(() => {
             console.log('value updated to new-expense');
             addNewExpenseForm.setFieldValue('item', [] as Array<ItemListType>);
+
+            ToastAndroid.showWithGravity(
+              'Added your new expenses into account',
+              1500,
+              10,
+            );
           });
       } else {
         console.log(
@@ -116,18 +131,27 @@ export default function AddNewExpense() {
           newExpense.data(),
         );
 
-        const dataInFb = newExpense.data()?.pendingValues;
-        const updatedPendingExpense = [...dataInFb, ...values];
+        const dataInFb = newExpense.data()?.pending;
+        const existingTotalExpenditure = newExpense.data()?.pending?.totalPrice;
 
         await firestore()
           .collection('pending')
           .doc(`${auth().currentUser?.uid}`)
           .update({
-            pendingValues: updatedPendingExpense,
+            pending: {
+              pendingValues: [...dataInFb.pendingValues, ...values],
+              totalPrice: totalPr + existingTotalExpenditure,
+            },
           })
           .then(() => {
             console.log('value updated to new-expense');
             addNewExpenseForm.setFieldValue('item', [] as Array<ItemListType>);
+
+            ToastAndroid.showWithGravity(
+              'Added your new expenses into account',
+              1500,
+              10,
+            );
           });
       }
     } catch (error) {
@@ -190,7 +214,7 @@ export default function AddNewExpense() {
                     updateItemProperty(index, parseInt(text), 'price');
                   }}
                   updateQuantity={text => {
-                    updateItemProperty(index, parseInt(text), 'quantity');
+                    updateItemProperty(index, text, 'quantity');
                   }}
                   onDelete={() => {
                     handleDelete(item);
