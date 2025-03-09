@@ -1886,6 +1886,11 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@notifee/react-native@^9.1.8":
+  version "9.1.8"
+  resolved "https://registry.yarnpkg.com/@notifee/react-native/-/react-native-9.1.8.tgz#3d55cb3fbcc21f9e35931e366afdf64b294da891"
+  integrity sha512-Az/dueoPerJsbbjRxu8a558wKY+gONUrfoy3Hs++5OqbeMsR0dYe6P+4oN6twrLFyzAhEA1tEoZRvQTFDRmvQg==
+
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@protobufjs/aspromise/-/aspromise-1.1.2.tgz#9b8b0cc663d669a7d8f6f5d0893a14d348f30fbf"
@@ -2112,6 +2117,11 @@
   version "21.0.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-21.0.0.tgz#8f8e816dd8bdb99e4b1fb2fc5992c47e105df36e"
   integrity sha512-cz3ASBxfj853LfICjKmRe4OXRG5hmzpVNqdvPT1K9K/SDkypMhv+NMKptfmevz3taRmNtSeCOwctid1VrhN+wg==
+
+"@react-native-firebase/messaging@^21.12.0":
+  version "21.12.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-21.12.0.tgz#09df4facf3544eeb42cc23676ae7c2a68014b005"
+  integrity sha512-KIPuLLptNBryv/upuzW1FLFWv/L/9otSwzJdhkYybV07IG/eeK/4l615UargT9ZyYPSlDjAZC+7yUK2t+cSGNA==
 
 "@react-native-masked-view/masked-view@^0.3.1":
   version "0.3.1"
