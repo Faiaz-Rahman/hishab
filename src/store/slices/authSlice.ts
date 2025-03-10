@@ -1,11 +1,18 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import auth from '@react-native-firebase/auth';
 
+interface UserType {
+  email: string | null;
+  photoUrl: null | string;
+  displayName: string | null;
+  uid: string;
+}
+
 interface StateType {
   isAuthenticated: boolean;
   authToken: string | null;
   authLoader: boolean;
-  userInfo: Object;
+  userInfo: UserType;
   refreshToken: string;
 }
 
@@ -13,7 +20,12 @@ const initialState: StateType = {
   isAuthenticated: false,
   authToken: null,
   authLoader: false,
-  userInfo: {},
+  userInfo: {
+    displayName: null,
+    email: '',
+    photoUrl: null,
+    uid: '',
+  },
   refreshToken: '',
 };
 
@@ -45,6 +57,9 @@ const authSlice = createSlice({
     updateAuthLoader: (state, actions) => {
       state.authLoader = actions.payload;
     },
+    logout: (state, actions) => {
+      state = initialState;
+    },
   },
   extraReducers(builder) {
     builder.addCase(login.pending, (state, action) => {
@@ -55,13 +70,18 @@ const authSlice = createSlice({
     });
     builder.addCase(login.fulfilled, (state, action) => {
       if (action?.payload) {
-        state.userInfo = action.payload;
+        state.userInfo.displayName = action.payload.displayName;
+        state.userInfo.email = action.payload.email;
+        state.userInfo.photoUrl = action.payload.photoURL;
+        state.userInfo.uid = action.payload.uid;
+
         state.isAuthenticated = true;
       }
     });
   },
 });
 
-export const {updateIsAuthenticated, updateAuthLoader} = authSlice.actions;
+export const {updateIsAuthenticated, updateAuthLoader, logout} =
+  authSlice.actions;
 
 export default authSlice.reducer;

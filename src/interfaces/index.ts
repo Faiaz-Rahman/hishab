@@ -40,6 +40,8 @@ export interface AppTextInputProps {
     | 'phone-pad'
     | 'url'
     | 'email-address';
+  editable?: boolean;
+  value?: string;
 }
 
 export interface ButtonProps {
@@ -50,4 +52,5 @@ export interface ButtonProps {
   onPress: () => void;
   children?: React.ReactNode;
   disabled?: boolean;
+  useGradient?: boolean;
 }

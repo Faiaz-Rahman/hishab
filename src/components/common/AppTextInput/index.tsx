@@ -3,7 +3,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput as RNTextInput,
-  ViewStyle,
 } from 'react-native';
 
 import React, {useState} from 'react';
@@ -22,10 +21,12 @@ export default function TextInput({
   children,
   useGradient = true,
   preIcon,
+  editable = true,
   showRightIcon = false,
   toggleShowPassword,
   showPassword = true,
   keyboardType,
+  value,
 }: AppTextInputProps) {
   return (
     <View style={[styles.inputWrapper, style]}>
@@ -45,6 +46,8 @@ export default function TextInput({
           onBlur={onBlur}
           onFocus={onFocus}
           cursorColor={Colors.socialPink}
+          editable={editable}
+          value={value}
         />
       </View>
 

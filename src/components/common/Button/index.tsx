@@ -20,27 +20,41 @@ export default function Button({
   onPress,
   children,
   disabled = false,
+  useGradient = true,
 }: ButtonProps) {
   return (
     <TouchableOpacity
       style={[styles.button, {width}, buttonStyle]}
       disabled={disabled}
       onPress={onPress}>
-      <LinearGradient
-        colors={Colors.gradient}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-        locations={[0, 0.25, 0.6]}
-        style={styles.gradient}>
-        <AppText
-          styles={{
-            fontFamily: 'Poppins-SemiBold',
-            ...titleStyle,
-          }}>
-          {title}
-          {children}
-        </AppText>
-      </LinearGradient>
+      {useGradient ? (
+        <LinearGradient
+          colors={Colors.gradient}
+          start={{x: 0, y: 1}}
+          end={{x: 1, y: 0}}
+          locations={[0, 0.25, 0.6]}
+          style={styles.gradient}>
+          <AppText
+            styles={{
+              fontFamily: 'Poppins-SemiBold',
+              ...titleStyle,
+            }}>
+            {title}
+            {children}
+          </AppText>
+        </LinearGradient>
+      ) : (
+        <>
+          <AppText
+            styles={{
+              fontFamily: 'Poppins-SemiBold',
+              ...titleStyle,
+            }}>
+            {title}
+            {children}
+          </AppText>
+        </>
+      )}
     </TouchableOpacity>
   );
 }
