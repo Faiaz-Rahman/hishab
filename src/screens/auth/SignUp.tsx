@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import {View, StyleSheet, Pressable, ToastAndroid} from 'react-native';
 import React, {useState} from 'react';
 import TextInput from '@components/common/AppTextInput';
 import {Colors, Dim} from '@constants';
@@ -10,11 +10,51 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Button from '@components/common/Button';
 import {useNavigation} from '@react-navigation/native';
 import LogoItem from '@components/common/logoItem';
+import {useAppDispatch} from '@store/index';
+import {signup, updateUserInfo} from '@store/slices/authSlice';
+
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import firebase from '@react-native-firebase/firestore';
 
 export default function SignUp() {
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [pass, setPass] = useState<string>('');
+  const [confPass, setConfPass] = useState<string>('');
 
   const [showPass, setShowPass] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const onSignup = async () => {
+    setLoading(true);
+    dispatch(signup({name, email, pass}))
+      .unwrap()
+      .then(userData => {
+        firebase().collection('users').doc(userData?.uid).set({
+          name,
+          email,
+          createdAt: new Date().toDateString(),
+          fcm: '',
+        });
+
+        if (userData) {
+          dispatch(
+            updateUserInfo({
+              displayName: userData?.displayName,
+              email: userData?.email,
+              photoUrl: userData?.photoURL,
+              uid: userData?.uid,
+            }),
+          );
+        }
+
+        setLoading(false);
+      });
+  };
 
   return (
     <View style={styles.signup}>
@@ -22,10 +62,30 @@ export default function SignUp() {
 
       <TextInput
         onBlur={() => {}}
-        placeholder="Enter your email"
+        placeholder="e.g. Atiqul Halal, ... "
         placeholderTextColor={Colors.lighterGray}
         onFocus={() => {}}
-        onChangeText={() => {}}
+        onChangeText={text => setName(text)}
+        showRightIcon={false}
+        style={{
+          width: Dim.width * 0.73,
+          marginBottom: 20,
+        }}
+        preIcon={
+          <MaterialCommunityIcons
+            name="format-letter-case"
+            size={18}
+            color={Colors.lighterGray}
+          />
+        }
+      />
+
+      <TextInput
+        onBlur={() => {}}
+        placeholder="e.g. halal@example.com, ..."
+        placeholderTextColor={Colors.lighterGray}
+        onFocus={() => {}}
+        onChangeText={text => setEmail(text)}
         showRightIcon={false}
         style={{
           width: Dim.width * 0.73,
@@ -39,7 +99,7 @@ export default function SignUp() {
         placeholder="Enter new password"
         placeholderTextColor={Colors.lighterGray}
         onFocus={() => {}}
-        onChangeText={() => {}}
+        onChangeText={text => setPass(text)}
         toggleShowPassword={() => {
           setShowPass(!showPass);
         }}
@@ -63,7 +123,7 @@ export default function SignUp() {
         placeholder="Confirm new password"
         placeholderTextColor={Colors.lighterGray}
         onFocus={() => {}}
-        onChangeText={() => {}}
+        onChangeText={text => setConfPass(text)}
         toggleShowPassword={() => {
           setShowPass(!showPass);
         }}
@@ -84,12 +144,19 @@ export default function SignUp() {
       <Button
         width={Dim.width * 0.7}
         title="Sign up"
+        disabled={loading}
         buttonStyle={{
           marginTop: 20,
         }}
         titleStyle={{}}
         onPress={() => {
-          console.log('sign up');
+          if (!email || !pass || !confPass || !name) {
+            ToastAndroid.showWithGravity('Fill up the data first!', 1500, 10);
+          } else if (pass != confPass) {
+            ToastAndroid.showWithGravity('Passwords do not match!', 1500, 10);
+          } else {
+            onSignup();
+          }
         }}
       />
 

@@ -2,15 +2,32 @@ import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 
 import MainLayout from '@layouts/MainLayout';
-import AppText from '@components/common/Text';
 
 import BalanceCard from '@components/common/BalanceCard';
 import {Colors, Dim} from '@constants';
 import RedirectButton from '@components/common/RedirectButton';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import {RootState} from '@store/index';
+
+import firebase from '@react-native-firebase/firestore';
 
 export default function Meal() {
   const navigation = useNavigation();
+
+  const {fcmToken, userInfo} = useSelector((state: RootState) => state.auth);
+
+  const appendFcmTokenToUser = async () => {
+    await firebase().collection('users').doc(userInfo.uid).update({
+      fcm: fcmToken,
+    });
+  };
+
+  React.useEffect(() => {
+    if (fcmToken) {
+      appendFcmTokenToUser();
+    }
+  }, [fcmToken]);
 
   return (
     <MainLayout noScroll={false}>

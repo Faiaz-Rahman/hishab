@@ -23,9 +23,12 @@ import {useSelector} from 'react-redux';
 import {RootState, useAppDispatch} from '@store/index';
 import {
   login,
+  setFcmToken,
   updateAuthLoader,
   updateIsAuthenticated,
 } from '@store/slices/authSlice';
+
+import messaging from '@react-native-firebase/messaging';
 
 export default function Login() {
   const [showPass, setShowPass] = useState<boolean>(false);
@@ -37,9 +40,19 @@ export default function Login() {
   const {isAuthenticated} = useSelector(state => (state as RootState).auth);
   const dispatch = useAppDispatch();
 
-  // React.useEffect(() => {
-  //   console.log(isAuthenticated);
-  // }, [isAuthenticated]);
+  const onAppBootstrap = async () => {
+    await messaging().registerDeviceForRemoteMessages();
+
+    const token = await messaging().getToken();
+    dispatch(
+      setFcmToken({
+        fcm: token,
+      }),
+    );
+
+    console.log('the fcm token for this device =>', token);
+  };
+
   const onPressLogin = async () => {
     if (!email || !password) {
       ToastAndroid.showWithGravity('Fill up the data first!', 1500, 10);
@@ -58,6 +71,10 @@ export default function Login() {
       }
     }
   };
+
+  React.useEffect(() => {
+    onAppBootstrap();
+  }, []);
 
   return (
     <View style={styles.login}>

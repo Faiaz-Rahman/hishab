@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import auth from '@react-native-firebase/auth';
+import {PayloadAction} from '@reduxjs/toolkit';
 
 interface UserType {
   email: string | null;
@@ -14,6 +15,7 @@ interface StateType {
   authLoader: boolean;
   userInfo: UserType;
   refreshToken: string;
+  fcmToken: string;
 }
 
 const initialState: StateType = {
@@ -27,6 +29,7 @@ const initialState: StateType = {
     uid: '',
   },
   refreshToken: '',
+  fcmToken: '',
 };
 
 export const login = createAsyncThunk(
@@ -47,6 +50,27 @@ export const login = createAsyncThunk(
   },
 );
 
+export const signup = createAsyncThunk(
+  'auth/signup',
+  async (
+    {name, email, pass}: {name: string; email: string; pass: string},
+    thunkAPI,
+  ) => {
+    try {
+      const resp = await auth().createUserWithEmailAndPassword(email, pass);
+
+      if (resp.user) {
+        return resp.user;
+      }
+      throw new Error('error in signup');
+    } catch (error) {
+      if (error instanceof Error) {
+        return thunkAPI.rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -58,7 +82,31 @@ const authSlice = createSlice({
       state.authLoader = actions.payload;
     },
     logout: (state, actions) => {
-      state = initialState;
+      Object.assign(state, initialState);
+    },
+    setFcmToken: (
+      state,
+      actions: PayloadAction<{
+        fcm: string;
+      }>,
+    ) => {
+      state.fcmToken = actions.payload.fcm;
+    },
+    updateUserInfo: (
+      state,
+      actions: PayloadAction<{
+        displayName: string | null;
+        email: string | null;
+        uid: string;
+        photoUrl: string | null;
+      }>,
+    ) => {
+      state.userInfo.displayName = actions.payload.displayName;
+      state.userInfo.email = actions.payload.email;
+      state.userInfo.photoUrl = actions.payload.photoUrl;
+      state.userInfo.uid = actions.payload.uid;
+
+      state.isAuthenticated = true;
     },
   },
   extraReducers(builder) {
@@ -81,7 +129,12 @@ const authSlice = createSlice({
   },
 });
 
-export const {updateIsAuthenticated, updateAuthLoader, logout} =
-  authSlice.actions;
+export const {
+  updateUserInfo,
+  updateIsAuthenticated,
+  updateAuthLoader,
+  logout,
+  setFcmToken,
+} = authSlice.actions;
 
 export default authSlice.reducer;

@@ -5,6 +5,7 @@ import {
   StyleSheet,
   StyleProp,
   ViewStyle,
+  ActivityIndicator,
 } from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
@@ -39,8 +40,14 @@ export default function Button({
               fontFamily: 'Poppins-SemiBold',
               ...titleStyle,
             }}>
-            {title}
-            {children}
+            {disabled ? (
+              <ActivityIndicator size={'large'} color={'#fff'} />
+            ) : (
+              <>
+                {title}
+                {children}
+              </>
+            )}
           </AppText>
         </LinearGradient>
       ) : (
@@ -50,8 +57,14 @@ export default function Button({
               fontFamily: 'Poppins-SemiBold',
               ...titleStyle,
             }}>
-            {title}
-            {children}
+            {disabled ? (
+              <ActivityIndicator size={'small'} color={'#fff'} />
+            ) : (
+              <>
+                {title}
+                {children}
+              </>
+            )}
           </AppText>
         </>
       )}

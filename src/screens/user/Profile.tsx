@@ -25,9 +25,9 @@ export default function Profile() {
   const onPressLogout = async () => {
     setIsLoading(true);
     await auth().signOut();
-    dispatch(logout({}));
 
     await persistor.purge();
+    dispatch(logout({}));
 
     setIsLoading(false);
   };
@@ -57,16 +57,7 @@ export default function Profile() {
 
         <View style={{marginTop: 30, gap: 15}}>
           <TextInput
-            placeholder="Your first name ..."
-            placeholderTextColor="gray"
-            onChangeText={() => {}}
-            onBlur={() => {}}
-            onFocus={() => {}}
-            style={styles.textInputStyle}
-          />
-
-          <TextInput
-            placeholder="Your last name ..."
+            placeholder="Your Full Name ..."
             placeholderTextColor="gray"
             onChangeText={() => {}}
             onBlur={() => {}}

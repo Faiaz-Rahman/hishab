@@ -14,6 +14,7 @@ const Tab = createBottomTabNavigator();
 export default function UserRouter() {
   return (
     <Tab.Navigator
+      initialRouteName="meal"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
