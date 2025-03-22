@@ -17,9 +17,9 @@ function App(): React.JSX.Element {
   const onMessageReceived = async (message: any) => {
     console.log(JSON.parse(message.data.notifee));
 
-    notifee.displayNotification({
+    await notifee.displayNotification({
       ...JSON.parse(message.data.notifee),
-      icon: 'ic_launcher',
+      largeIcon: require('@assets/images/logo.png'),
     });
   };
 
@@ -48,8 +48,7 @@ function App(): React.JSX.Element {
     createNotificationChannel();
 
     const unsubscribeOnMessage = messaging().onMessage(onMessageReceived);
-    const unsubscribeBackgroundMessageHandler =
-      messaging().setBackgroundMessageHandler(onMessageReceived);
+    messaging().setBackgroundMessageHandler(onMessageReceived);
 
     return () => {
       unsubscribeOnMessage();

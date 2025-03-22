@@ -59,7 +59,7 @@ export default function AddNewExpense() {
 
   const sendPushNotification = async () => {
     try {
-      const resp = await fetch('http://10.0.2.2:3000/sendNotification', {
+      const resp = await fetch(`${process.env.APP_BASE_URL}/sendNotification`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -185,9 +185,9 @@ export default function AddNewExpense() {
     setIsLoading(false);
   };
 
-  // React.useEffect(() => {
-  //   sendPushNotification();
-  // }, []);
+  React.useEffect(() => {
+    sendPushNotification();
+  }, []);
 
   // React.useEffect(() => {
   //   console.log(addNewExpenseForm.values);
