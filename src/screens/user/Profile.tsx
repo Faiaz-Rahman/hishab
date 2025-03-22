@@ -87,6 +87,7 @@ export default function Profile() {
             style={styles.textInputStyle}
           />
 
+          {/* should have different loading states for save and log out ... */}
           <Button
             title="Save"
             disabled={isLoading}

@@ -41,7 +41,7 @@ export default function Button({
               ...titleStyle,
             }}>
             {disabled ? (
-              <ActivityIndicator size={'large'} color={'#fff'} />
+              <ActivityIndicator size={'small'} color={'#fff'} />
             ) : (
               <>
                 {title}

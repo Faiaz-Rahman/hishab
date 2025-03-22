@@ -19,6 +19,8 @@ import moment from 'moment';
 import auth from '@react-native-firebase/auth';
 
 import uuid from 'react-native-uuid';
+import {useSelector} from 'react-redux';
+import {RootState} from '@store/index';
 
 export interface ItemListType {
   id?: string;
@@ -43,6 +45,7 @@ const addNewExpenseFormValidationSchema = yup.object().shape({
 export default function AddNewExpense() {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {userInfo} = useSelector((state: RootState) => state.auth);
 
   const addNewExpenseForm = useFormik({
     initialValues: {
@@ -53,6 +56,27 @@ export default function AddNewExpense() {
       await updateNewExpenseListToFb(values.item);
     },
   });
+
+  const sendPushNotification = async () => {
+    try {
+      const resp = await fetch('http://10.0.2.2:3000/sendNotification', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: userInfo.displayName,
+          email: userInfo.email,
+        }),
+      });
+
+      const respJson = await resp.json();
+
+      console.log('the resp is =>', respJson);
+    } catch (error) {
+      console.log('the error while sending push notification, ', error);
+    }
+  };
 
   const handleDelete = (item: ItemListType) => {
     const updatedItemForm = [...addNewExpenseForm.values.item];
@@ -162,12 +186,12 @@ export default function AddNewExpense() {
   };
 
   // React.useEffect(() => {
-  //   console.log(itemList);
-  // }, [itemList]);
+  //   sendPushNotification();
+  // }, []);
 
-  React.useEffect(() => {
-    console.log(addNewExpenseForm.values);
-  }, [addNewExpenseForm.values]);
+  // React.useEffect(() => {
+  //   console.log(addNewExpenseForm.values);
+  // }, [addNewExpenseForm.values]);
 
   return (
     <MainLayout
