@@ -185,9 +185,9 @@ export default function AddNewExpense() {
     setIsLoading(false);
   };
 
-  React.useEffect(() => {
-    sendPushNotification();
-  }, []);
+  // React.useEffect(() => {
+  //   sendPushNotification();
+  // }, []);
 
   // React.useEffect(() => {
   //   console.log(addNewExpenseForm.values);
