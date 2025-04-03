@@ -5,6 +5,8 @@ require('dotenv').config();
 const express = require('express');
 const admin = require('firebase-admin');
 
+const PORT = process.env.PORT || 3000;
+
 // var serviceAccount = require('./serviceAccountKey.json');
 
 admin.initializeApp({
@@ -62,6 +64,6 @@ app.post('/sendNotification', async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log('server started on 3000 for <7B> ...');
 });
