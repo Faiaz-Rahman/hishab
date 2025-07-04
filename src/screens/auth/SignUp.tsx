@@ -39,6 +39,7 @@ export default function SignUp() {
           email,
           createdAt: new Date().toDateString(),
           fcm: '',
+          role: 'treasurer',
         });
 
         if (userData) {
