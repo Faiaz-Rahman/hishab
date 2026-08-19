@@ -2,7 +2,7 @@ import {View, StyleSheet, ActivityIndicator, ToastAndroid} from 'react-native';
 import React, {useState} from 'react';
 import MainLayout from '@layouts/MainLayout';
 
-import Foundation from 'react-native-vector-icons/Foundation';
+import Foundation from '@react-native-vector-icons/foundation';
 import Header from '@components/common/Header';
 import {useNavigation} from '@react-navigation/native';
 import {Colors, Dim} from '@constants';
@@ -19,8 +19,6 @@ import moment from 'moment';
 import auth from '@react-native-firebase/auth';
 
 import uuid from 'react-native-uuid';
-import {useSelector} from 'react-redux';
-import {RootState} from '@store/index';
 
 export interface ItemListType {
   id?: string;
@@ -45,7 +43,6 @@ const addNewExpenseFormValidationSchema = yup.object().shape({
 export default function AddNewExpense() {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const {userInfo} = useSelector((state: RootState) => state.auth);
 
   const addNewExpenseForm = useFormik({
     initialValues: {
@@ -56,27 +53,6 @@ export default function AddNewExpense() {
       await updateNewExpenseListToFb(values.item);
     },
   });
-
-  const sendPushNotification = async () => {
-    try {
-      const resp = await fetch(`${process.env.APP_BASE_URL}/sendNotification`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: userInfo.displayName,
-          email: userInfo.email,
-        }),
-      });
-
-      const respJson = await resp.json();
-
-      console.log('the resp is =>', respJson);
-    } catch (error) {
-      console.log('the error while sending push notification, ', error);
-    }
-  };
 
   const handleDelete = (item: ItemListType) => {
     const updatedItemForm = [...addNewExpenseForm.values.item];
@@ -186,10 +162,6 @@ export default function AddNewExpense() {
   };
 
   // React.useEffect(() => {
-  //   sendPushNotification();
-  // }, []);
-
-  // React.useEffect(() => {
   //   console.log(addNewExpenseForm.values);
   // }, [addNewExpenseForm.values]);
 
@@ -197,6 +169,11 @@ export default function AddNewExpense() {
     <MainLayout
       noScroll={false}
       floatingButton
+      stickyHeader={<Header
+        onPressBackButton={() => navigation.goBack()}
+        title="New Expense"
+        titleStyle={{fontSize: 20, fontFamily: 'Roboto-Medium'}}
+      />}
       floatingButtonComponent={<Foundation name="plus" size={30} />}
       floatingButtonOnPress={() => {
         const currentItemListForm = [...addNewExpenseForm.values.item];
@@ -210,15 +187,6 @@ export default function AddNewExpense() {
 
         addNewExpenseForm.setFieldValue('item', currentItemListForm);
       }}>
-      <Header
-        onPressBackButton={() => navigation.goBack()}
-        title="New Expense"
-        titleStyle={{
-          fontSize: 20,
-          fontFamily: 'Roboto-Medium',
-        }}
-      />
-
       <View style={styles.expenseWrapper}>
         {addNewExpenseForm.values.item.length === 0 ? (
           <AppText styles={{marginTop: 20, color: Colors.lighterGray}}>
@@ -296,10 +264,18 @@ export default function AddNewExpense() {
           }}
           disabled={isLoading}
           title={isLoading ? '' : 'Update'}
-          width={Dim.width * 0.5}
+          width={Dim.width * 0.8}
+          useGradient={false}
+          titleStyle={styles.updateButtonText}
           buttonStyle={{
             alignSelf: 'center',
-            marginTop: 30,
+            marginTop: 9,
+            height: 52,
+            backgroundColor: 'transparent',
+            borderColor: Colors.lime,
+            borderWidth: 2,
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
           {isLoading && <ActivityIndicator color={'#fff'} />}
         </Button>
@@ -320,9 +296,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   expenseWrapper: {
-    gap: 35,
+    gap: 12,
     width: Dim.width,
     // backgroundColor: 'red',
     alignItems: 'center',
   },
+  updateButtonText: {color: Colors.lime},
 });

@@ -1,16 +1,14 @@
-import {View, Text, Pressable, ToastAndroid, StyleSheet} from 'react-native';
+import {View, ToastAndroid, StyleSheet} from 'react-native';
 import React, {useCallback, useState} from 'react';
 
 import MainLayout from '@layouts/MainLayout';
 import {Calendar, DateData} from 'react-native-calendars';
 import {Colors, Dim} from '@constants';
 
-import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 import AppText from '@components/common/Text';
 import RedirectButton from '@components/common/RedirectButton';
-import Animated from 'react-native-reanimated';
 import CheckBox from '@react-native-community/checkbox';
 import Button from '@components/common/Button';
 import Header from '@components/common/Header';
@@ -159,7 +157,7 @@ export default function UpdateMeal() {
         }
       }
     },
-    [selected, selectedSecond, objOfDates],
+    [selected],
   );
 
   const formatDate = (): string => {
@@ -186,15 +184,14 @@ export default function UpdateMeal() {
   // }, [arrayOfDates, objOfDates]);
 
   return (
-    <MainLayout noScroll={false}>
-      <Header
+    <MainLayout noScroll={false} stickyHeader={<Header
         onPressBackButton={() => navigation.goBack()}
         title="Update Meal"
         titleStyle={{
           fontSize: 20,
           fontFamily: 'Roboto-Medium',
         }}
-      />
+      />}>
 
       <Calendar
         style={styles.calendar}
@@ -266,7 +263,7 @@ export default function UpdateMeal() {
                   onValueChange={val => {
                     console.log(val);
                     setArrayOfDates(prev =>
-                      prev.map((eachDate, index) => {
+                      prev.map(eachDate => {
                         return eachDate.date === item.date
                           ? {...eachDate, lunch: val}
                           : eachDate;
@@ -285,7 +282,7 @@ export default function UpdateMeal() {
                   tintColors={{false: Colors.lighterGray, true: Colors.lime}}
                   onValueChange={val => {
                     setArrayOfDates(prev =>
-                      prev.map((eachDate, index) => {
+                      prev.map(eachDate => {
                         return eachDate.date === item.date
                           ? {...eachDate, dinner: val}
                           : eachDate;
@@ -302,9 +299,8 @@ export default function UpdateMeal() {
         title="Save Changes"
         width={Dim.width * 0.85}
         buttonStyle={{
-          height: 70,
+          height: 52,
           alignSelf: 'center',
-          borderRadius: 15,
           marginTop: toggleShowAllDates && arrayOfDates.length > 0 ? 0 : 25,
         }}
         onPress={() => {}}
@@ -315,11 +311,12 @@ export default function UpdateMeal() {
 
 const styles = StyleSheet.create({
   calendar: {
-    flex: 1,
     width: Dim.width * 0.85,
     alignSelf: 'center',
-    height: Dim.height * 0.55,
-    borderRadius: 5,
+    height: 360,
+    borderRadius: 18,
+    overflow: 'hidden',
+    paddingBottom: 14,
   },
   formattedDateWrapper: {
     height: 70,

@@ -3,7 +3,7 @@ import React from 'react';
 import AppText from '@components/common/Text';
 import {Colors} from '@constants';
 
-import Feather from 'react-native-vector-icons/Feather';
+import Feather from '@react-native-vector-icons/feather';
 import {CustomModalType} from '@interfaces/*';
 
 export default function CustomModal({

@@ -1,5 +1,6 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
+import {Colors} from '@constants';
 
 import {AuthRoute} from './auth';
 
@@ -14,7 +15,15 @@ export default function Route() {
   );
 
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      theme={{
+        ...DefaultTheme,
+        colors: {
+          ...DefaultTheme.colors,
+          background: Colors.pureBlack,
+          card: Colors.pureBlack,
+        },
+      }}>
       {isAuthenticated ? (
         authLoader ? (
           <Loader />

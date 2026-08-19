@@ -1,21 +1,12 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  StyleProp,
-  ViewProps,
-  Pressable,
-} from 'react-native';
+import {StyleSheet, Pressable} from 'react-native';
 import React from 'react';
 import AppText from '../Text';
 import {Colors, Dim} from '@constants';
 
-import Entypo from 'react-native-vector-icons/Entypo';
+import Entypo from '@react-native-vector-icons/entypo';
 import Animated, {
-  SharedValue,
   useAnimatedStyle,
-  useSharedValue,
-  withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 
 type RedirectButtonProps = {
@@ -33,26 +24,11 @@ export default function RedirectButton({
   animated = false,
   animatedValue,
 }: RedirectButtonProps) {
-  const rotate = animated
-    ? animatedValue == 0 || animatedValue == 1
-      ? useSharedValue<number>(animatedValue)
-      : null
-    : null;
-
-  const handlePress = () => {
-    if (rotate) {
-      rotate.value = animatedValue ? 0 : 1;
-    }
-  };
-
   const rotateStyle = useAnimatedStyle(() => {
     return {
       transform: [
         {
-          rotate: withSpring(animatedValue ? '90deg' : '0deg', {
-            duration: 1000,
-            stiffness: 50,
-          }),
+          rotate: withTiming(animatedValue ? '90deg' : '0deg', {duration: 220}),
         },
       ],
     };
@@ -63,12 +39,11 @@ export default function RedirectButton({
       style={[styles.redirectButton, extraStyle]}
       onPress={() => {
         onPress();
-        handlePress();
       }}>
       <AppText
         styles={{
-          color: Colors.lighterGray,
-          fontFamily: 'Roboto-Bold',
+          color: Colors.socialWhite,
+          fontFamily: 'Poppins-Medium',
         }}>
         {title}
       </AppText>
@@ -80,8 +55,8 @@ export default function RedirectButton({
     <Pressable style={[styles.redirectButton, extraStyle]} onPress={onPress}>
       <AppText
         styles={{
-          color: Colors.lighterGray,
-          fontFamily: 'Roboto-Bold',
+        color: Colors.socialWhite,
+        fontFamily: 'Poppins-Medium',
         }}>
         {title}
       </AppText>
@@ -96,12 +71,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    height: 70,
+    height: 64,
     width: Dim.width * 0.85,
     alignSelf: 'center',
     backgroundColor: Colors.socialBlack,
-    borderRadius: 15,
-    paddingLeft: 20,
-    paddingRight: 20,
+    borderRadius: 18,
+    paddingLeft: 18,
+    paddingRight: 18,
+    borderWidth: 1,
+    borderColor: Colors.cardBorder,
   },
 });

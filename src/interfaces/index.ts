@@ -7,6 +7,7 @@ export interface MainLayoutProps {
   floatingButton?: boolean;
   floatingButtonComponent?: React.ReactNode;
   floatingButtonOnPress?: () => void;
+  stickyHeader?: React.ReactNode;
 }
 
 export interface CustomModalType {

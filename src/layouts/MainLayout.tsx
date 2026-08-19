@@ -4,13 +4,13 @@ import MaskedView from '@react-native-masked-view/masked-view';
 import React from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   ScrollView,
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import Animated, {FadeInDown} from 'react-native-reanimated';
 
 export default function MainLayout({
   children,
@@ -18,28 +18,31 @@ export default function MainLayout({
   floatingButton,
   floatingButtonComponent,
   floatingButtonOnPress,
+  stickyHeader,
 }: MainLayoutProps) {
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: '#000',
+        backgroundColor: Colors.pureBlack,
         position: 'relative',
         alignItems: 'center',
         justifyContent: 'center',
       }}>
+      <StatusBar barStyle={'light-content'} backgroundColor={Colors.pureBlack} />
       {noScroll ? (
-        <View style={styles.mainLayout}>
-          <StatusBar barStyle={'light-content'} backgroundColor={'#000'} />
+          <Animated.View entering={FadeInDown.duration(350)} style={styles.mainLayout}>
           {children}
-        </View>
+          </Animated.View>
       ) : (
-        <ScrollView
-          contentContainerStyle={styles.scrollview}
-          showsVerticalScrollIndicator={false}>
-          <StatusBar barStyle={'light-content'} backgroundColor={'#000'} />
-          {children}
-        </ScrollView>
+        <>
+          {stickyHeader && <View style={styles.stickyHeader}>{stickyHeader}</View>}
+          <ScrollView
+            contentContainerStyle={[styles.scrollview, stickyHeader && styles.scrollviewWithStickyHeader]}
+            showsVerticalScrollIndicator={false}>
+            <Animated.View entering={FadeInDown.duration(350)}>{children}</Animated.View>
+          </ScrollView>
+        </>
       )}
 
       {floatingButton && (
@@ -94,7 +97,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 30,
     width: Dim.width,
-    backgroundColor: '#000',
+    backgroundColor: Colors.pureBlack,
   },
   noScrollWrapper: {
     flex: 1,
@@ -105,18 +108,32 @@ const styles = StyleSheet.create({
   scrollview: {
     paddingTop: 30,
     // alignItems: 'center',
-    backgroundColor: '#000',
+    backgroundColor: Colors.pureBlack,
     width: Dim.width,
     paddingBottom: Dim.height * 0.2,
+  },
+  scrollviewWithStickyHeader: {
+    paddingTop: 96,
+  },
+  stickyHeader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: Dim.width,
+    height: 96,
+    paddingTop: 30,
+    backgroundColor: Colors.pureBlack,
+    zIndex: 10,
+    elevation: 10,
   },
   floatingButtonWrapper: {
     height: 60,
     width: Dim.width,
     position: 'absolute',
     // backgroundColor: 'green',
-    top: '80%',
+    bottom: 28,
     justifyContent: 'center',
-    paddingRight: 20,
+    paddingRight: 24,
     alignItems: 'flex-end',
   },
   gradient: {

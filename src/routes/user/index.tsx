@@ -7,7 +7,7 @@ import Rent from '@screens/user/Rent';
 import Utilities from '@screens/user/Utilities';
 import {Image, View} from 'react-native';
 
-import FontAwesome from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome from '@react-native-vector-icons/fontawesome5';
 
 const Tab = createBottomTabNavigator();
 

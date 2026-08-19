@@ -1,10 +1,6 @@
 import {
-  View,
-  Text,
   TouchableOpacity,
   StyleSheet,
-  StyleProp,
-  ViewStyle,
   ActivityIndicator,
 } from 'react-native';
 import React from 'react';
@@ -74,8 +70,8 @@ export default function Button({
 
 const styles = StyleSheet.create({
   button: {
-    height: 40,
-    borderRadius: 5,
+    height: 52,
+    borderRadius: 16,
     overflow: 'hidden',
   },
   gradient: {

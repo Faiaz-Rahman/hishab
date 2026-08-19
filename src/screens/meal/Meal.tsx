@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import React from 'react';
 
 import MainLayout from '@layouts/MainLayout';
@@ -11,43 +11,53 @@ import {useSelector} from 'react-redux';
 import {RootState} from '@store/index';
 
 import firebase from '@react-native-firebase/firestore';
+import AppText from '@components/common/Text';
+import Animated, {FadeInDown} from 'react-native-reanimated';
+
+const AUGUST_LEDGER = {
+  meals: 166,
+  bazaarCost: 6510,
+  mealRate: 39.22,
+  utilityCost: 4150,
+  totalCost: 10660.24,
+};
 
 export default function Meal() {
   const navigation = useNavigation();
 
   const {fcmToken, userInfo} = useSelector((state: RootState) => state.auth);
 
-  const appendFcmTokenToUser = async () => {
+  const appendFcmTokenToUser = React.useCallback(async () => {
     await firebase().collection('users').doc(userInfo.uid).update({
       fcm: fcmToken,
     });
-  };
+  }, [fcmToken, userInfo.uid]);
 
   React.useEffect(() => {
     if (fcmToken) {
       appendFcmTokenToUser();
     }
-  }, [fcmToken]);
+  }, [appendFcmTokenToUser, fcmToken]);
 
   return (
     <MainLayout noScroll={false}>
       <BalanceCard
         size="lg"
         showDate
-        balance={500}
+        balance={AUGUST_LEDGER.totalCost}
         extraStyles={{
           backgroundColor: Colors.lime,
         }}
         textStyles={{
           color: '#000',
         }}
-        heading="Your meal balance is:"
+        heading="August shared cost"
       />
       <View style={styles.balanceCardWrapper}>
         <BalanceCard
           size="sm"
-          balance={62.76}
-          heading="meal rate"
+          balance={AUGUST_LEDGER.mealRate}
+          heading="Meal rate"
           onExpand={() => {
             console.log('expand meal rate');
           }}
@@ -58,7 +68,7 @@ export default function Meal() {
         />
         <BalanceCard
           size="sm"
-          balance={9057}
+          balance={AUGUST_LEDGER.bazaarCost}
           showRoundedBalance
           onExpand={() => {
             console.log('expand funds');
@@ -70,6 +80,18 @@ export default function Meal() {
         />
       </View>
 
+      <Animated.View entering={FadeInDown.delay(260).duration(450)} style={styles.insightCard}>
+        <View>
+          <AppText styles={styles.insightLabel}>MONTHLY SNAPSHOT</AppText>
+          <AppText styles={styles.insightTitle}>{AUGUST_LEDGER.meals} total meals</AppText>
+        </View>
+        <View style={styles.utilityPill}>
+          <AppText styles={styles.utilityText}>৳{AUGUST_LEDGER.utilityCost.toLocaleString()} utilities</AppText>
+        </View>
+      </Animated.View>
+
+      <AppText styles={styles.sectionLabel}>MANAGE HOUSEHOLD LEDGER</AppText>
+
       <RedirectButton
         title="All Expenses"
         onPress={() => {
@@ -77,7 +99,7 @@ export default function Meal() {
           navigation.navigate('all_expenses' as never);
         }}
         extraStyle={{
-          marginTop: 25,
+          marginTop: 12,
         }}
       />
 
@@ -88,7 +110,7 @@ export default function Meal() {
           navigation.navigate('new_expense' as never);
         }}
         extraStyle={{
-          marginTop: 25,
+          marginTop: 12,
         }}
       />
 
@@ -99,7 +121,7 @@ export default function Meal() {
           navigation.navigate('update_meal' as never);
         }}
         extraStyle={{
-          marginTop: 25,
+          marginTop: 12,
         }}
       />
     </MainLayout>
@@ -113,6 +135,22 @@ const styles = StyleSheet.create({
     width: Dim.width * 0.85,
     alignSelf: 'center',
     justifyContent: 'space-between',
-    marginTop: 25,
+    marginTop: 14,
   },
+  insightCard: {
+    width: Dim.width * 0.85,
+    alignSelf: 'center',
+    marginTop: 18,
+    padding: 17,
+    borderRadius: 18,
+    backgroundColor: '#262438',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  insightLabel: {fontSize: 10, color: '#B4A8ED', fontFamily: 'Poppins-SemiBold', letterSpacing: 1},
+  insightTitle: {fontSize: 17, fontFamily: 'Poppins-SemiBold', marginTop: 3},
+  utilityPill: {backgroundColor: '#38334F', borderRadius: 10, paddingHorizontal: 10, paddingVertical: 7},
+  utilityText: {fontSize: 10, color: '#E1DCFF', fontFamily: 'Poppins-Medium'},
+  sectionLabel: {fontSize: 11, color: Colors.lighterGray, letterSpacing: 1, fontFamily: 'Poppins-SemiBold', width: Dim.width * 0.85, alignSelf: 'center', marginTop: 28, marginBottom: 2},
 });

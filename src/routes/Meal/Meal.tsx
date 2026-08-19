@@ -4,6 +4,7 @@ import AllExpenses from '@screens/meal/AllExpenses';
 import DetailedExpense from '@screens/meal/DetailedExpense';
 import Meal from '@screens/meal/Meal';
 import UpdateMeal from '@screens/meal/UpdateMeal';
+import {Colors} from '@constants';
 
 const Stack = createStackNavigator();
 
@@ -12,6 +13,8 @@ export const MealStack = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
+        cardStyle: {backgroundColor: Colors.pureBlack},
+        cardOverlayEnabled: false,
       }}>
       <Stack.Screen name="meal_stack" component={Meal} />
       <Stack.Screen name="update_meal" component={UpdateMeal} />

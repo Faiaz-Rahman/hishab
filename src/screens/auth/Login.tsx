@@ -8,8 +8,8 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Foundation from 'react-native-vector-icons/Foundation';
+import Ionicons from '@react-native-vector-icons/ionicons';
+import Foundation from '@react-native-vector-icons/foundation';
 
 import {Colors, Dim} from '@constants';
 import TextInput from '@components/common/AppTextInput';

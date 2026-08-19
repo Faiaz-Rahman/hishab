@@ -3,9 +3,9 @@ import React, {useState} from 'react';
 import TextInput from '@components/common/AppTextInput';
 import {Colors, Dim} from '@constants';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Foundation from 'react-native-vector-icons/Foundation';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from '@react-native-vector-icons/ionicons';
+import Foundation from '@react-native-vector-icons/foundation';
+import MaterialIcons from '@react-native-vector-icons/material-icons';
 
 import Button from '@components/common/Button';
 import {useNavigation} from '@react-navigation/native';
@@ -13,7 +13,7 @@ import LogoItem from '@components/common/logoItem';
 import {useAppDispatch} from '@store/index';
 import {signup, updateUserInfo} from '@store/slices/authSlice';
 
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcons from '@react-native-vector-icons/material-icons';
 
 import firebase from '@react-native-firebase/firestore';
 
@@ -74,7 +74,7 @@ export default function SignUp() {
         }}
         preIcon={
           <MaterialCommunityIcons
-            name="format-letter-case"
+            name="format-overline"
             size={18}
             color={Colors.lighterGray}
           />

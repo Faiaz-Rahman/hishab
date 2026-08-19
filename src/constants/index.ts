@@ -7,15 +7,20 @@ export const Dim = {
 };
 
 export const Colors = {
-  darkBlack: '#181A1C',
-  pureBlack: '#000',
+  darkBlack: '#15171D',
+  pureBlack: '#090A0F',
   socialBlue: '#2E8AF6',
   socialPink: '#F62E8E',
   socialWhite: '#ECEBED',
   white: '#fff',
-  darkGray: '#323436',
-  lighterGray: '#727477',
-  gradient: ['#F62E8E', '#F62E8E', '#AC1AF0'],
-  socialBlack: '#1c1a1b',
-  lime: '#c6fe1e',
+  darkGray: '#292C35',
+  lighterGray: '#9499A8',
+  gradient: ['#B7F52C', '#86D90B', '#42B64A'],
+  socialBlack: '#1A1D25',
+  lime: '#C8F542',
+  cardBorder: '#303541',
+  muted: '#B8BDC9',
+  success: '#8DE65B',
+  danger: '#FF7A8B',
+  purple: '#9D7BFF',
 };

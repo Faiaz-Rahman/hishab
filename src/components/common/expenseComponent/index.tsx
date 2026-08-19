@@ -1,5 +1,5 @@
-import {View, Text, StyleSheet, Pressable, LayoutAnimation} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
+import React from 'react';
 import TextInput from '../AppTextInput';
 import {Colors, Dim} from '@constants';
 import AppText from '../Text';
@@ -146,8 +146,7 @@ export default function ExpenseComponent({
 const styles = StyleSheet.create({
   inputWrapper: {
     width: Dim.width,
-    // backgroundColor: 'red',
-    height: Dim.height * 0.45,
+    paddingBottom: 2,
   },
   extraTextInputStyle: {
     width: Dim.width * 0.8,
