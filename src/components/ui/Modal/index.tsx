@@ -72,13 +72,13 @@ export default function CustomModal({
               alignItems: 'center',
               justifyContent: 'space-around',
             }}>
-            <Pressable onPress={onPressNo} style={styles.noButton}>
+            <Pressable onPress={onPressNo ?? (() => {})} style={styles.noButton}>
               <AppText
                 styles={{color: Colors.lime, fontFamily: 'Poppins-Bold'}}>
                 No
               </AppText>
             </Pressable>
-            <Pressable onPress={onPressYes} style={styles.yesButton}>
+            <Pressable onPress={onPressYes ?? (() => {})} style={styles.yesButton}>
               <AppText styles={{color: '#000', fontFamily: 'Poppins-Bold'}}>
                 Yes
               </AppText>

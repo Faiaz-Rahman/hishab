@@ -298,11 +298,13 @@ export default function UpdateMeal() {
       <Button
         title="Save Changes"
         width={Dim.width * 0.85}
+        useGradient={false}
+        gradientBorder
         buttonStyle={{
-          height: 52,
           alignSelf: 'center',
           marginTop: toggleShowAllDates && arrayOfDates.length > 0 ? 0 : 25,
         }}
+        titleStyle={{color: Colors.lime}}
         onPress={() => {}}
       />
     </MainLayout>
