@@ -54,4 +54,5 @@ export interface ButtonProps {
   children?: React.ReactNode;
   disabled?: boolean;
   useGradient?: boolean;
+  gradientBorder?: boolean;
 }

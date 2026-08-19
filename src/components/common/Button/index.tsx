@@ -1,5 +1,6 @@
 import {
   TouchableOpacity,
+  View,
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
@@ -18,13 +19,27 @@ export default function Button({
   children,
   disabled = false,
   useGradient = true,
+  gradientBorder = false,
 }: ButtonProps) {
   return (
     <TouchableOpacity
       style={[styles.button, {width}, buttonStyle]}
       disabled={disabled}
       onPress={onPress}>
-      {useGradient ? (
+      {gradientBorder ? (
+        <LinearGradient
+          colors={Colors.gradient}
+          start={{x: 0, y: 1}}
+          end={{x: 1, y: 0}}
+          locations={[0, 0.25, 0.6]}
+          style={styles.gradientBorder}>
+          <View style={styles.gradientBorderInner}>
+            <AppText styles={{fontFamily: 'Poppins-SemiBold', color: Colors.lime, ...titleStyle}}>
+              {disabled ? <ActivityIndicator size={'small'} color={Colors.lime} /> : <>{title}{children}</>}
+            </AppText>
+          </View>
+        </LinearGradient>
+      ) : useGradient ? (
         <LinearGradient
           colors={Colors.gradient}
           start={{x: 0, y: 1}}
@@ -71,7 +86,7 @@ export default function Button({
 const styles = StyleSheet.create({
   button: {
     height: 52,
-    borderRadius: 16,
+    borderRadius: 10,
     overflow: 'hidden',
   },
   gradient: {
@@ -81,4 +96,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 5,
   },
+  gradientBorder: {height: '100%', width: '100%', padding: 2, borderRadius: 10},
+  gradientBorderInner: {flex: 1, borderRadius: 8, backgroundColor: Colors.pureBlack, justifyContent: 'center', alignItems: 'center'},
 });

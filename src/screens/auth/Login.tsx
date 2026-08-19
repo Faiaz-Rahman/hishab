@@ -1,6 +1,5 @@
 import {
   View,
-  Text,
   StyleSheet,
   TouchableOpacity,
   StatusBar,
@@ -19,13 +18,11 @@ import AppText from '@components/common/Text';
 import {useNavigation} from '@react-navigation/native';
 import LogoItem from '@components/common/logoItem';
 
-import {useSelector} from 'react-redux';
-import {RootState, useAppDispatch} from '@store/index';
+import {useAppDispatch} from '@store/index';
 import {
   login,
   setFcmToken,
   updateAuthLoader,
-  updateIsAuthenticated,
 } from '@store/slices/authSlice';
 
 import messaging from '@react-native-firebase/messaging';
@@ -37,10 +34,9 @@ export default function Login() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const {isAuthenticated} = useSelector(state => (state as RootState).auth);
   const dispatch = useAppDispatch();
 
-  const onAppBootstrap = async () => {
+  const onAppBootstrap = React.useCallback(async () => {
     await messaging().registerDeviceForRemoteMessages();
 
     const token = await messaging().getToken();
@@ -51,7 +47,7 @@ export default function Login() {
     );
 
     console.log('the fcm token for this device =>', token);
-  };
+  }, [dispatch]);
 
   const onPressLogin = async () => {
     if (!email || !password) {
@@ -74,7 +70,7 @@ export default function Login() {
 
   React.useEffect(() => {
     onAppBootstrap();
-  }, []);
+  }, [onAppBootstrap]);
 
   return (
     <View style={styles.login}>
@@ -119,12 +115,14 @@ export default function Login() {
       </TextInput>
 
       <Button
-        width={Dim.width * 0.7}
+        width={Dim.width * 0.73}
         title="Login"
+        useGradient={false}
+        gradientBorder
         buttonStyle={{
-          marginTop: 20,
+          marginTop: 35,
         }}
-        titleStyle={{}}
+        titleStyle={{color: Colors.lime}}
         onPress={onPressLogin}
       />
 

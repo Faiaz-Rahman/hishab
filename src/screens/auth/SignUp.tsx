@@ -143,13 +143,15 @@ export default function SignUp() {
       </TextInput>
 
       <Button
-        width={Dim.width * 0.7}
+        width={Dim.width * 0.73}
         title="Sign up"
         disabled={loading}
+        useGradient={false}
+        gradientBorder
         buttonStyle={{
           marginTop: 20,
         }}
-        titleStyle={{}}
+        titleStyle={{color: Colors.lime}}
         onPress={() => {
           if (!email || !pass || !confPass || !name) {
             ToastAndroid.showWithGravity('Fill up the data first!', 1500, 10);
