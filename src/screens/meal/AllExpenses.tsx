@@ -21,15 +21,26 @@ const settlementData = [
 export default function AllExpenses() {
   const navigation = useNavigation();
   return (
-    <MainLayout noScroll={false} stickyHeader={<Header
-        onPressBackButton={() => navigation.goBack()}
-        title="All Expenses"
-        titleStyle={{
-          fontSize: 20,
-          fontFamily: 'Roboto-Medium',
-        }}
-      />}>
-      <View style={styles.summary}><View><AppText styles={styles.summaryLabel}>TOTAL SHARED COST</AppText><AppText styles={styles.summaryTotal}>৳10,660.24</AppText></View><AppText styles={styles.summaryMeta}>166 meals\nAugust ledger</AppText></View>
+    <MainLayout
+      noScroll={false}
+      stickyHeader={
+        <Header
+          onPressBackButton={() => navigation.goBack()}
+          title="All Expenses"
+          titleStyle={{
+            fontSize: 20,
+            fontFamily: 'Roboto-Medium',
+          }}
+        />
+      }>
+      <View style={styles.summary}>
+        <View>
+          <AppText styles={styles.summaryLabel}>TOTAL SHARED COST</AppText>
+          <AppText styles={styles.summaryTotal}>৳10,660.24</AppText>
+        </View>
+        <AppText
+          styles={styles.summaryMeta}>{`166 meals\nAugust ledger`}</AppText>
+      </View>
       <AppText styles={styles.section}>TAKE / GIVE SETTLEMENT</AppText>
       <View style={styles.list}>
         {settlementData.map((item, index) => {
@@ -39,7 +50,9 @@ export default function AllExpenses() {
               key={`expenseComponent${index}`}
               totalAmount={Math.abs(item.settlement)}
               username={item.name}
-              caption={`${isTake ? 'To receive' : 'To pay'} · shared cost ৳${item.total.toLocaleString()}`}
+              caption={`${
+                isTake ? 'To receive' : 'To pay'
+              } · shared cost ৳${item.total.toLocaleString()}`}
               amountColor={isTake ? Colors.success : Colors.danger}
               onPress={() => {
                 navigation.navigate('detailed_expenses' as never);
@@ -63,10 +76,38 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     resizeMode: 'contain',
   },
-  summary: {width: Dim.width * 0.85, alignSelf: 'center', padding: 18, borderRadius: 18, backgroundColor: '#202E28', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'},
-  summaryLabel: {fontSize: 10, color: '#A8D78C', letterSpacing: 1, fontFamily: 'Poppins-SemiBold'},
+  summary: {
+    width: Dim.width * 0.85,
+    alignSelf: 'center',
+    padding: 18,
+    borderRadius: 18,
+    backgroundColor: '#202E28',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  summaryLabel: {
+    fontSize: 10,
+    color: '#A8D78C',
+    letterSpacing: 1,
+    fontFamily: 'Poppins-SemiBold',
+  },
   summaryTotal: {fontSize: 23, fontFamily: 'Poppins-Bold', marginTop: 2},
-  summaryMeta: {fontSize: 11, color: '#C6D6C8', textAlign: 'right', lineHeight: 17},
-  section: {width: Dim.width * 0.85, alignSelf: 'center', marginTop: 24, marginBottom: 10, fontSize: 11, letterSpacing: 1, color: Colors.lighterGray, fontFamily: 'Poppins-SemiBold'},
+  summaryMeta: {
+    fontSize: 11,
+    color: '#C6D6C8',
+    textAlign: 'right',
+    lineHeight: 17,
+  },
+  section: {
+    width: Dim.width * 0.85,
+    alignSelf: 'center',
+    marginTop: 24,
+    marginBottom: 10,
+    fontSize: 11,
+    letterSpacing: 1,
+    color: Colors.lighterGray,
+    fontFamily: 'Poppins-SemiBold',
+  },
   list: {gap: 10},
 });
