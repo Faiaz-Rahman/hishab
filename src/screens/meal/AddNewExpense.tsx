@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
   },
   extraTextInputStyle: {
     width: Dim.width * 0.8,
-    height: 70,
+    height: 50,
     borderRadius: 10,
   },
   expenseWrapper: {

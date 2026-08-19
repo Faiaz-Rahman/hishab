@@ -48,7 +48,7 @@ export default function BalanceCard({
         <>
           <Pressable onPress={onExpand} style={styles.headerWrapper}>
             <AppText styles={styles.smallHeading}>{heading}</AppText>
-            <Entypo name="chevron-thin-right" size={14} color={Colors.muted} />
+            <Entypo name="chevron-thin-right" size={14} color={Colors.muted} style={styles.chevron} />
           </Pressable>
           <AppText styles={styles.smallBalance}>{showRoundedBalance ? balance?.toLocaleString() : balance?.toFixed(2)}<AppText styles={styles.smallCurrency}> ৳</AppText></AppText>
         </>
@@ -89,14 +89,15 @@ const styles = StyleSheet.create({
   heading: {color: '#35400E', fontSize: 14, fontFamily: 'Poppins-Medium', marginTop: 'auto'},
   balance: {color: '#121A08', fontSize: 35, fontFamily: 'Poppins-Bold', letterSpacing: -1.2},
   currency: {fontSize: 20, fontFamily: 'Poppins-SemiBold'},
-  smallHeading: {color: Colors.muted, fontSize: 12, fontFamily: 'Poppins-Medium'},
+  smallHeading: {color: Colors.muted, fontSize: 12, fontFamily: 'Poppins-Medium', flex: 1, flexWrap: 'wrap'},
   smallBalance: {fontSize: 25, marginTop: 'auto', fontFamily: 'Poppins-SemiBold'},
   smallCurrency: {fontSize: 14, color: Colors.lime},
+  chevron: {marginTop: 2},
   headerWrapper: {
     width: '100%',
     paddingRight: 16,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
 });

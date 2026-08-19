@@ -75,7 +75,7 @@ export default function ExpenseComponent({
           }}
           style={{
             width: Dim.width * 0.8,
-            height: 70,
+            height: 50,
             borderRadius: 10,
           }}
           onBlur={() => {}}
@@ -99,7 +99,7 @@ export default function ExpenseComponent({
           }}
           style={{
             width: Dim.width * 0.8,
-            height: 70,
+            height: 50,
             borderRadius: 10,
           }}
           onBlur={() => {}}
@@ -124,7 +124,7 @@ export default function ExpenseComponent({
           }}
           style={{
             width: Dim.width * 0.8,
-            height: 70,
+            height: 50,
             borderRadius: 10,
           }}
           onBlur={() => {}}
@@ -168,5 +168,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingLeft: 10,
     justifyContent: 'center',
+    marginBottom: 10,
   },
 });

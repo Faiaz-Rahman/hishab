@@ -69,6 +69,7 @@ export default function Meal() {
         <BalanceCard
           size="sm"
           balance={AUGUST_LEDGER.bazaarCost}
+          heading={`Total Meal \n Cost`}
           showRoundedBalance
           onExpand={() => {
             console.log('expand funds');
@@ -80,13 +81,19 @@ export default function Meal() {
         />
       </View>
 
-      <Animated.View entering={FadeInDown.delay(260).duration(450)} style={styles.insightCard}>
+      <Animated.View
+        entering={FadeInDown.delay(260).duration(450)}
+        style={styles.insightCard}>
         <View>
           <AppText styles={styles.insightLabel}>MONTHLY SNAPSHOT</AppText>
-          <AppText styles={styles.insightTitle}>{AUGUST_LEDGER.meals} total meals</AppText>
+          <AppText styles={styles.insightTitle}>
+            {AUGUST_LEDGER.meals} total meals
+          </AppText>
         </View>
         <View style={styles.utilityPill}>
-          <AppText styles={styles.utilityText}>৳{AUGUST_LEDGER.utilityCost.toLocaleString()} utilities</AppText>
+          <AppText styles={styles.utilityText}>
+            ৳{AUGUST_LEDGER.utilityCost.toLocaleString()} utilities
+          </AppText>
         </View>
       </Animated.View>
 
@@ -148,9 +155,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  insightLabel: {fontSize: 10, color: '#B4A8ED', fontFamily: 'Poppins-SemiBold', letterSpacing: 1},
+  insightLabel: {
+    fontSize: 10,
+    color: '#B4A8ED',
+    fontFamily: 'Poppins-SemiBold',
+    letterSpacing: 1,
+  },
   insightTitle: {fontSize: 17, fontFamily: 'Poppins-SemiBold', marginTop: 3},
-  utilityPill: {backgroundColor: '#38334F', borderRadius: 10, paddingHorizontal: 10, paddingVertical: 7},
+  utilityPill: {
+    backgroundColor: '#38334F',
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+  },
   utilityText: {fontSize: 10, color: '#E1DCFF', fontFamily: 'Poppins-Medium'},
-  sectionLabel: {fontSize: 11, color: Colors.lighterGray, letterSpacing: 1, fontFamily: 'Poppins-SemiBold', width: Dim.width * 0.85, alignSelf: 'center', marginTop: 28, marginBottom: 2},
+  sectionLabel: {
+    fontSize: 11,
+    color: Colors.lighterGray,
+    letterSpacing: 1,
+    fontFamily: 'Poppins-SemiBold',
+    width: Dim.width * 0.85,
+    alignSelf: 'center',
+    marginTop: 28,
+    marginBottom: 2,
+  },
 });
