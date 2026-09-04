@@ -15,6 +15,7 @@
       "@store/*": ["./src/store/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@interfaces/*": ["./src/interfaces"],
+      "@services/*": ["./src/services/*"],
       "underscore": ["lodash"]
     }
   }

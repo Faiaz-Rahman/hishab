@@ -17,6 +17,7 @@ module.exports = {
           '@constants': './src/constants',
           '@hooks': './src/hooks',
           '@interfaces': './src/interfaces',
+          '@services': './src/services',
         },
         extensions: [
           '.ios.ts',

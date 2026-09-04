@@ -1,5 +1,5 @@
 import {View, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import MainLayout from '@layouts/MainLayout';
 import Header from '@components/common/Header';
 import {useNavigation} from '@react-navigation/native';
@@ -7,6 +7,7 @@ import ExpenseDetailedComponent from '@components/common/expenseDetailedComponen
 import AppText from '@components/common/Text';
 import Animated, {FadeInDown} from 'react-native-reanimated';
 import {Colors, Dim} from '@constants';
+import {api} from '../../../src/services/api';
 
 type expenseDataType = {
   date: string;
@@ -16,34 +17,27 @@ type expenseDataType = {
 
 export default function DetailedExpense() {
   const navigation = useNavigation();
+  const [expenseDetailsData, setExpenseDetailsData] = useState<
+    Array<expenseDataType>
+  >([]);
 
-  const expenseDetailsData: Array<expenseDataType> = [
-    {
-      date: '21 Sep, 2024',
-      itemName: 'Chicken',
-      qty: 4,
-    },
-    {
-      date: '20 Sep, 2024',
-      itemName: 'Chicken',
-      qty: 1,
-    },
-    {
-      date: '23 Sep, 2024',
-      itemName: 'Chicken',
-      qty: 2,
-    },
-    {
-      date: '25 Sep, 2024',
-      itemName: 'Chicken',
-      qty: 1,
-    },
-    {
-      date: '22 Sep, 2024',
-      itemName: 'Chicken',
-      qty: 3,
-    },
-  ];
+  useEffect(() => {
+    let mounted = true;
+    const load = async () => {
+      try {
+        const res = await api.getLedger();
+        if (mounted && res.expenseDetailsData) {
+          setExpenseDetailsData(res.expenseDetailsData);
+        }
+      } catch (e) {
+        console.warn('Failed to load expense details', e);
+      }
+    };
+    load();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   return (
     <MainLayout noScroll={false}>

@@ -1,5 +1,5 @@
 import {View, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 
 import MainLayout from '@layouts/MainLayout';
 
@@ -13,17 +13,19 @@ import {RootState} from '@store/index';
 import firebase from '@react-native-firebase/firestore';
 import AppText from '@components/common/Text';
 import Animated, {FadeInDown} from 'react-native-reanimated';
+import {api} from '../../../src/services/api';
 
-const AUGUST_LEDGER = {
-  meals: 166,
-  bazaarCost: 6510,
-  mealRate: 39.22,
-  utilityCost: 4150,
-  totalCost: 10660.24,
+const DEFAULT_LEDGER = {
+  meals: 0,
+  bazaarCost: 0,
+  mealRate: 0,
+  utilityCost: 0,
+  totalCost: 0,
 };
 
 export default function Meal() {
   const navigation = useNavigation();
+  const [ledger, setLedger] = useState(DEFAULT_LEDGER);
 
   const {fcmToken, userInfo} = useSelector((state: RootState) => state.auth);
 
@@ -39,12 +41,32 @@ export default function Meal() {
     }
   }, [appendFcmTokenToUser, fcmToken]);
 
+  React.useEffect(() => {
+    let mounted = true;
+    const load = async () => {
+      try {
+        const res = await api.getLedger();
+        if (mounted && res.ledger) {
+          setLedger(res.ledger);
+        }
+      } catch (e) {
+        console.warn('Failed to load ledger', e);
+      }
+    };
+    load();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const formatHeading = `Total Meal \n Cost`;
+
   return (
     <MainLayout noScroll={false}>
       <BalanceCard
         size="lg"
         showDate
-        balance={AUGUST_LEDGER.totalCost}
+        balance={ledger.totalCost}
         extraStyles={{
           backgroundColor: Colors.lime,
         }}
@@ -56,7 +78,7 @@ export default function Meal() {
       <View style={styles.balanceCardWrapper}>
         <BalanceCard
           size="sm"
-          balance={AUGUST_LEDGER.mealRate}
+          balance={ledger.mealRate}
           heading="Meal rate"
           onExpand={() => {
             console.log('expand meal rate');
@@ -68,8 +90,8 @@ export default function Meal() {
         />
         <BalanceCard
           size="sm"
-          balance={AUGUST_LEDGER.bazaarCost}
-          heading={`Total Meal \n Cost`}
+          balance={ledger.bazaarCost}
+          heading={formatHeading}
           showRoundedBalance
           onExpand={() => {
             console.log('expand funds');
@@ -87,12 +109,12 @@ export default function Meal() {
         <View>
           <AppText styles={styles.insightLabel}>MONTHLY SNAPSHOT</AppText>
           <AppText styles={styles.insightTitle}>
-            {AUGUST_LEDGER.meals} total meals
+            {ledger.meals} total meals
           </AppText>
         </View>
         <View style={styles.utilityPill}>
           <AppText styles={styles.utilityText}>
-            ৳{AUGUST_LEDGER.utilityCost.toLocaleString()} utilities
+            ৳{ledger.utilityCost.toLocaleString()} utilities
           </AppText>
         </View>
       </Animated.View>

@@ -1,5 +1,5 @@
 import {View, Image, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import MainLayout from '@layouts/MainLayout';
 import {useNavigation} from '@react-navigation/native';
 import Header from '@components/common/Header';
@@ -7,19 +7,35 @@ import Header from '@components/common/Header';
 import AllExpenseComponent from '@components/common/AllExpenseComponent';
 import AppText from '@components/common/Text';
 import {Colors, Dim} from '@constants';
+import {api} from '../../../src/services/api';
 
-const settlementData = [
-  {name: 'Anik', total: 1259.54, settlement: 890.46},
-  {name: 'Maruf', total: 1769.36, settlement: 1031},
-  {name: 'Nafee', total: 1612.5, settlement: -1082.5},
-  {name: 'Shuvo', total: 1455.63, settlement: -585.63},
-  {name: 'Siyam', total: 1299, settlement: 681},
-  {name: 'Fahim', total: 1455.63, settlement: 364.37},
-  {name: 'Nishad', total: 1808.58, settlement: -318.58},
-];
+type SettlementType = {
+  name: string;
+  total: number;
+  settlement: number;
+};
 
 export default function AllExpenses() {
   const navigation = useNavigation();
+  const [settlementData, setSettlementData] = useState<SettlementType[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+    const load = async () => {
+      try {
+        const res = await api.getLedger();
+        if (mounted && res.settlementData) {
+          setSettlementData(res.settlementData);
+        }
+      } catch (e) {
+        console.warn('Failed to load settlement data', e);
+      }
+    };
+    load();
+    return () => {
+      mounted = false;
+    };
+  }, []);
   return (
     <MainLayout
       noScroll={false}

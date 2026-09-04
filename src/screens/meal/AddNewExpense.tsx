@@ -19,6 +19,7 @@ import moment from 'moment';
 import auth from '@react-native-firebase/auth';
 
 import uuid from 'react-native-uuid';
+import {api} from '../../../src/services/api';
 
 export interface ItemListType {
   id?: string;
@@ -104,8 +105,6 @@ export default function AddNewExpense() {
       );
 
       if (!newExpense.exists) {
-        console.log('no such collection');
-
         await firestore()
           .collection('pending')
           .doc(`${auth().currentUser?.uid}`)
@@ -114,23 +113,8 @@ export default function AddNewExpense() {
               pendingValues: values,
               totalPrice: totalPr,
             },
-          })
-          .then(() => {
-            console.log('value updated to new-expense');
-            addNewExpenseForm.setFieldValue('item', [] as Array<ItemListType>);
-
-            ToastAndroid.showWithGravity(
-              'Added your new expenses into account',
-              1500,
-              10,
-            );
           });
       } else {
-        console.log(
-          'collection exists with following data =>',
-          newExpense.data(),
-        );
-
         const dataInFb = newExpense.data()?.pending;
         const existingTotalExpenditure = newExpense.data()?.pending?.totalPrice;
 
@@ -142,23 +126,37 @@ export default function AddNewExpense() {
               pendingValues: [...dataInFb.pendingValues, ...values],
               totalPrice: totalPr + existingTotalExpenditure,
             },
-          })
-          .then(() => {
-            console.log('value updated to new-expense');
-            addNewExpenseForm.setFieldValue('item', [] as Array<ItemListType>);
-
-            ToastAndroid.showWithGravity(
-              'Added your new expenses into account',
-              1500,
-              10,
-            );
           });
       }
+
+      addNewExpenseForm.setFieldValue('item', [] as Array<ItemListType>);
+      ToastAndroid.showWithGravity(
+        'Added your new expenses into account',
+        1500,
+        10,
+      );
+
+      const today = moment().format('YYYY-MM-DD');
+      await Promise.allSettled(
+        values.map(item =>
+          api
+            .syncExpense({
+              itemName: item.itemName,
+              qty: item.quantity,
+              price: item.price,
+              date: today,
+            })
+            .catch(e => {
+              console.warn('Sheets sync failed for item', item.itemName, e);
+            }),
+        ),
+      );
     } catch (error) {
       console.log('error in add-new-expense =>', error);
+      ToastAndroid.showWithGravity('Failed to add expense', 1500, 10);
+    } finally {
       setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   // React.useEffect(() => {
@@ -169,11 +167,13 @@ export default function AddNewExpense() {
     <MainLayout
       noScroll={false}
       floatingButton
-      stickyHeader={<Header
-        onPressBackButton={() => navigation.goBack()}
-        title="New Expense"
-        titleStyle={{fontSize: 20, fontFamily: 'Roboto-Medium'}}
-      />}
+      stickyHeader={
+        <Header
+          onPressBackButton={() => navigation.goBack()}
+          title="New Expense"
+          titleStyle={{fontSize: 20, fontFamily: 'Roboto-Medium'}}
+        />
+      }
       floatingButtonComponent={<Foundation name="plus" size={30} />}
       floatingButtonOnPress={() => {
         const currentItemListForm = [...addNewExpenseForm.values.item];

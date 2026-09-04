@@ -1,0 +1,24 @@
+{
+  "pipelineConfig": {
+    "globalDependencies": [
+      "../../apps/server",
+      "../../apps/mobile"
+    ],
+    "outputs": {
+      "dist": "dist",
+      "server": "apps/server/dist",
+      "mobile": "apps/mobile/dist"
+    },
+    "runs": {
+      "build": {
+        "dependsOn": ["*"],
+        "input": ["apps/server", "apps/mobile"],
+        "outputs": ["dist", "server", "mobile"]
+      },
+      "dev": {
+        "cache": "node_modules",
+        "dependsOn": ["build"]
+      }
+    }
+  }
+}

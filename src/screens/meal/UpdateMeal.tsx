@@ -12,6 +12,7 @@ import RedirectButton from '@components/common/RedirectButton';
 import CheckBox from '@react-native-community/checkbox';
 import Button from '@components/common/Button';
 import Header from '@components/common/Header';
+import {api} from '../../../src/services/api';
 
 type DateWithMealType = {
   date: string;
@@ -23,6 +24,7 @@ export default function UpdateMeal() {
   const [selected, setSelected] = useState<string>('');
   const navigation = useNavigation();
   const [selectedSecond, setSelectedSecond] = useState<string>('');
+  const [saving, setSaving] = useState(false);
 
   const [objOfDates, setObjOfDates] = useState({});
   const [toggleShowAllDates, setToggleShowAllDates] = useState(false);
@@ -184,15 +186,18 @@ export default function UpdateMeal() {
   // }, [arrayOfDates, objOfDates]);
 
   return (
-    <MainLayout noScroll={false} stickyHeader={<Header
-        onPressBackButton={() => navigation.goBack()}
-        title="Update Meal"
-        titleStyle={{
-          fontSize: 20,
-          fontFamily: 'Roboto-Medium',
-        }}
-      />}>
-
+    <MainLayout
+      noScroll={false}
+      stickyHeader={
+        <Header
+          onPressBackButton={() => navigation.goBack()}
+          title="Update Meal"
+          titleStyle={{
+            fontSize: 20,
+            fontFamily: 'Roboto-Medium',
+          }}
+        />
+      }>
       <Calendar
         style={styles.calendar}
         theme={{
@@ -305,7 +310,31 @@ export default function UpdateMeal() {
           marginTop: toggleShowAllDates && arrayOfDates.length > 0 ? 0 : 25,
         }}
         titleStyle={{color: Colors.lime}}
-        onPress={() => {}}
+        disabled={saving}
+        onPress={async () => {
+          if (!arrayOfDates.length) {
+            ToastAndroid.showWithGravity('Select meals first', 1500, 2);
+            return;
+          }
+          setSaving(true);
+          try {
+            await api.syncMeals(arrayOfDates);
+            ToastAndroid.showWithGravity('Meals saved', 1500, 10);
+            setToggleShowAllDates(false);
+            setArrayOfDates([]);
+            setSelected('');
+            setSelectedSecond('');
+            setObjOfDates({});
+          } catch (e: any) {
+            ToastAndroid.showWithGravity(
+              e.message || 'Failed to save meals',
+              1500,
+              10,
+            );
+          } finally {
+            setSaving(false);
+          }
+        }}
       />
     </MainLayout>
   );
